@@ -103,7 +103,7 @@ button.vio{background:var(--vio);color:#fff}
   border:6px solid rgba(255,255,255,.08);
   box-shadow:0 12px 30px rgba(0,0,0,.35);
   position:relative;transform:rotate(0deg);
-  transition:transform .95s cubic-bezier(.12,.92,.12,1);
+  transition:transform .95s cubic-bezier(.12,.92,.12,1); /* أسرع */
 }
 .wheel:after{
   content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);
@@ -254,7 +254,7 @@ th{background:#0b1430}
       <h3 style="margin:0 0 10px">إدارة الفصول</h3>
 
       <label>اختيار الفصل</label>
-      <select id="classSelect" onchange="saveSelectedClass(); syncAll()"></select>
+      <select id="classSelect" onchange="syncAll()"></select>
 
       <div class="hr"></div>
 
@@ -465,14 +465,14 @@ function makeSession(){
     noRepeatGroups:false,
     usedStudentIds:[],
     usedGroups:[],
-    chosenGroup:null,
-    pickedId:null,
-    wheelMode:"all",
+    chosenGroup:null,   // 1..4
+    pickedId:null,      // student id
+    wheelMode:"all",    // "all" أو "group" (لطالبات المجموعة المختارة)
     log:`${today()} — تم بدء جلسة اليوم.\n`,
-    attendance:{},
-    points:{},
-    warns:{},
-    groupPoints:{1:0,2:0,3:0,4:0}
+    attendance:{},   // id -> 0 present 1 absent 2 late
+    points:{},       // نقاط الطالبة
+    warns:{},        // تنبيهات الطالبة
+    groupPoints:{1:0,2:0,3:0,4:0} // نقاط المجموعات
   };
 }
 function ensureSession(className){
@@ -570,23 +570,11 @@ function saveTeacherEmail(){
 /* ===================== اختيار الفصل ===================== */
 function renderClassSelector(){
   const sel=el("classSelect");
-  const current = sel.value;
   sel.innerHTML="";
   classNames().forEach(name=>{
     sel.innerHTML += `<option value="${esc(name)}">${esc(name)}</option>`;
   });
-
-  const saved = localStorage.getItem("last_class");
-  if(saved && classNames().includes(saved)){
-    sel.value = saved;
-  }else if(current && classNames().includes(current)){
-    sel.value = current;
-  }else{
-    sel.value = classNames()[0] || "";
-  }
-}
-function saveSelectedClass(){
-  localStorage.setItem("last_class", currentClass());
+  if(!sel.value) sel.value = classNames()[0] || "";
 }
 function currentClass(){ return el("classSelect").value; }
 
@@ -719,6 +707,7 @@ function classCalm(){
   s.noisy=false;
   s.praise++;
 
+  // اختيار مجموعة عشوائيًا من غير الفارغة وإضافة نقاط لها
   let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g));
   if(!groups.length) groups=[1,2,3,4];
   const g = groups[Math.floor(Math.random()*groups.length)];
@@ -767,7 +756,7 @@ function spinGroupWheel(){
   const cls=getClass(cname);
   const s=ensureSession(cname);
 
-  let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g));
+  let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g)); // تجاهل الفارغة
   if(!groups.length) groups=[1,2,3,4];
 
   if(s.noRepeatGroups){
@@ -804,6 +793,7 @@ function spinStudentWheel(){
 
   let pool = cls.students.slice();
 
+  // إذا النمط "مجموعة مختارة" نفلتر على المجموعة المختارة
   if(s.wheelMode==="group"){
     if(!s.chosenGroup) return alert("اختاري مجموعة أولاً من عجلة المجموعات.");
     pool = pool.filter(st=>st.group===s.chosenGroup);
@@ -1166,6 +1156,7 @@ ${rows}
 </table>
 </body></html>`;
 
+  // طباعة عبر iframe لتقليل مشاكل الحظر
   const iframe = document.createElement("iframe");
   iframe.style.position="fixed";
   iframe.style.right="0";
@@ -1208,7 +1199,6 @@ function importJSON(){
 function wipeAll(){
   if(confirm("هل تريدين حذف كل البيانات من هذا الجهاز؟")){
     localStorage.removeItem(STORE);
-    localStorage.removeItem("last_class");
     data=defaultData();
     save();
     alert("تم حذف البيانات.");
@@ -1238,8 +1228,10 @@ function syncAll(){
     el("classStatusBox").textContent = "—";
   }
 
+  // تحديث نص نمط عجلة الطالبات
   el("wheelModeTxt").textContent = (s.wheelMode==="all") ? "كل الصف" : "المجموعة المختارة";
 
+  // تحديث نتائج العجلات (بدون إفساد آخر نتيجة)
   const chosen = s.chosenGroup ? groupNames[s.chosenGroup] : null;
   el("pickGroupResult").innerHTML = chosen ? `<b>نتيجة المجموعة:</b> <span class="tag t-vio">${chosen}</span>` : `<b>نتيجة المجموعة:</b> —`;
 
