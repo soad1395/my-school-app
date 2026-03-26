@@ -1258,7 +1258,9 @@ function syncAll(){
 
 /* تشغيل */
 renderMeta();
-syncAll();
+setTimeout(() => {
+  syncAll();
+}, 0);
   // حفظ آخر فصل تم اختياره
 function saveSelectedClass(){
   const val = currentClass();
