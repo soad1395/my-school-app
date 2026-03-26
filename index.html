@@ -1273,8 +1273,14 @@ renderClassSelector = function(){
   oldRenderClassSelector();
 
   const saved = localStorage.getItem("last_class");
+  const sel = document.getElementById("classSelect");
+
   if(saved && classNames().includes(saved)){
-    document.getElementById("classSelect").value = saved;
+    sel.value = saved;
   }
+
+  // 🔥 مهم جداً: تحديث الواجهة بعد اختيار الفصل
+  setTimeout(() => {
+    syncAll();
+  }, 0);
 };
-</script>
