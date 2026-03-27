@@ -1,6 +1,35 @@
-
-
-;padding:10px 12px;border-radius:999px;cursor:pointer;
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>منصّة إدارة الصف الذكية</title>
+<style>
+:root{
+  --bg:#0b1020; --card:#111a35; --card2:#0e1631; --line:#2a3355;
+  --gold:#D4AF37; --txt:#fff; --muted:#b9c0d6;
+  --ok:#2EA043; --warn:#F59F00; --bad:#E24B4B; --vio:#4C2F8C;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;font-family:Tahoma,Arial;background:var(--bg);color:var(--txt)}
+h1{margin:0 0 6px;color:var(--gold);font-weight:1000;text-align:center}
+p{margin:4px 0;color:var(--muted);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card2{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px}
+.span-12{grid-column:span 12}
+.span-8{grid-column:span 8}
+.span-4{grid-column:span 4}
+@media (max-width:980px){.span-8,.span-4{grid-column:span 12} body{padding:10px}}
+label{display:block;font-size:12px;color:var(--muted);margin:6px 0 4px}
+input,select,textarea{
+  width:100%;padding:10px 11px;border-radius:12px;border:1px solid var(--line);
+  background:#0b1430;color:var(--txt);outline:none
+}
+textarea{min-height:90px;resize:vertical}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{
+  border:none;padding:10px 12px;border-radius:999px;cursor:pointer;
   background:var(--gold);color:#0b1020;font-weight:1000
 }
 button.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
@@ -17,9 +46,10 @@ button.vio{background:var(--vio);color:#fff}
 .t-bad{background:rgba(226,75,75,.18);color:#ffb7b7;border:1px solid rgba(226,75,75,.35)}
 .t-gold{background:rgba(212,175,55,.14);color:#ffe8a6;border:1px solid rgba(212,175,55,.35)}
 .t-vio{background:rgba(76,47,140,.18);color:#d7c7ff;border:1px solid rgba(76,47,140,.35)}
+
 .hidden{display:none}
 
-/* ===== الغلاف ===== */
+/* ===== الغلاف الجديد ===== */
 .cover{
   border-radius:18px;border:1px solid var(--line);overflow:hidden;
   background:
@@ -29,72 +59,108 @@ button.vio{background:var(--vio);color:#fff}
     linear-gradient(135deg,#0b1430,#0b1020);
 }
 .coverInner{padding:18px}
-.coverHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.coverHeader{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap
+}
 .badge{
   padding:6px 10px;border-radius:999px;border:1px solid rgba(212,175,55,.35);
   background:rgba(212,175,55,.12);color:#ffe8a6;font-weight:1000;font-size:12px
 }
 .coverHero{
-  margin-top:14px;border-radius:18px;border:1px solid rgba(212,175,55,.25);
-  background:rgba(11,20,48,.55);padding:18px;text-align:center;position:relative;overflow:hidden;
+  margin-top:14px;
+  border-radius:18px;
+  border:1px solid rgba(212,175,55,.25);
+  background:rgba(11,20,48,.55);
+  padding:18px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
 }
 .coverHero:before{
-  content:"";position:absolute;inset:-40px;
+  content:"";
+  position:absolute; inset:-40px;
   background:
     radial-gradient(200px 200px at 15% 20%, rgba(212,175,55,.20), transparent 60%),
     radial-gradient(220px 220px at 85% 30%, rgba(76,47,140,.20), transparent 65%),
     radial-gradient(260px 260px at 50% 95%, rgba(46,160,67,.12), transparent 70%);
   filter:blur(2px);
 }
-.coverHero>*{position:relative}
+.coverHero > *{position:relative}
 .coverCalligraphy{
-  font-family:"Amiri","Scheherazade New","Noto Naskh Arabic",Tahoma,Arial;
-  font-weight:900;font-size:34px;color:var(--gold);letter-spacing:.5px;margin:0;
+  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", Tahoma, Arial;
+  font-weight:900;
+  font-size:34px;
+  color:var(--gold);
+  letter-spacing:.5px;
+  margin:0;
 }
 .coverLine{
-  width:min(520px,90%);height:1px;
+  width:min(520px,90%);
+  height:1px;
   background:linear-gradient(90deg,transparent,rgba(212,175,55,.75),transparent);
   margin:10px auto;
 }
-.coverIcons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
-.pill{
-  padding:6px 10px;border-radius:999px;border:1px solid rgba(42,51,85,.9);
-  background:rgba(14,20,48,.55);color:#e8ecff;font-weight:900;font-size:12px;
+.coverIcons{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  margin-top:10px;
 }
-.brandSmall{font-weight:1000;color:#e8ecff;opacity:.95}
-.rights{margin-top:14px;text-align:center;color:rgba(255,255,255,.55);font-size:12px}
+.pill{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(42,51,85,.9);
+  background:rgba(14,20,48,.55);
+  color:#e8ecff;
+  font-weight:900;
+  font-size:12px;
+}
+.brandSmall{
+  font-weight:1000;
+  color:#e8ecff;
+  opacity:.95;
+}
+.rights{
+  margin-top:14px;
+  text-align:center;
+  color:rgba(255,255,255,.55);
+  font-size:12px;
+}
 
-/* ===== العجلات (سريعة) ===== */
-.wheelsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media (max-width:980px){.wheelsGrid{grid-template-columns:1fr}}
+/* ===== عجلة ===== */
 .wheelWrap{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .wheel{
   width:170px;height:170px;border-radius:50%;
   background:conic-gradient(#D4AF37,#4C2F8C,#2EA043,#F59F00,#E24B4B,#1A2A50,#D4AF37);
   border:6px solid rgba(255,255,255,.08);
   box-shadow:0 12px 30px rgba(0,0,0,.35);
-  position:relative;transform:rotate(0deg);
-  transition:transform .95s cubic-bezier(.12,.92,.12,1); /* أسرع */
+  position:relative; transform:rotate(0deg);
+  transition:transform 2.1s cubic-bezier(.1,.9,.1,1);
 }
 .wheel:after{
-  content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  content:""; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
   width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:16px solid var(--gold);
   filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));
 }
 .wheelCenter{
-  position:absolute;inset:0;margin:auto;width:52px;height:52px;border-radius:50%;
+  position:absolute; inset:0; margin:auto; width:52px;height:52px;border-radius:50%;
   background:#0b1430;border:2px solid rgba(212,175,55,.55);
   display:flex;align-items:center;justify-content:center;font-weight:1000;color:var(--gold)
 }
 
 /* ===== المجموعات ===== */
 .groupBox{
-  border:1px solid var(--line);border-radius:14px;padding:10px;background:#0b1430;min-height:170px;
+  border:1px solid var(--line); border-radius:14px; padding:10px;
+  background:#0b1430;
+  min-height:170px;
 }
-.groupTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:1000}
+.groupTitle{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  font-weight:1000;
+}
 .dropHint{
-  margin-top:8px;padding:8px;border-radius:12px;border:1px dashed rgba(212,175,55,.35);
-  color:#ffe8a6;background:rgba(212,175,55,.08);font-size:12px;
+  margin-top:8px;padding:8px;border-radius:12px;
+  border:1px dashed rgba(212,175,55,.35);
+  color:#ffe8a6;background:rgba(212,175,55,.08);
+  font-size:12px;
 }
 .groupList{margin-top:8px;display:flex;flex-direction:column;gap:6px}
 .stRow{
@@ -107,14 +173,25 @@ button.vio{background:var(--vio);color:#fff}
 
 /* ===== قائمة الصف ===== */
 .roster{
-  border:1px solid var(--line);border-radius:14px;padding:10px;background:#0b1430;
-  max-height:340px;overflow:auto;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px;
+  background:#0b1430;
+  max-height:340px;
+  overflow:auto;
 }
 .rosterItem{
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
-  padding:8px;border-radius:12px;border:1px solid rgba(42,51,85,.85);
-  background:rgba(14,20,48,.55);margin:6px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  border-radius:12px;
+  border:1px solid rgba(42,51,85,.85);
+  background:rgba(14,20,48,.55);
+  margin:6px 0;
 }
+.rosterItem input{width:260px;max-width:70vw}
 .drag{cursor:grab;user-select:none}
 
 /* جدول */
@@ -128,6 +205,7 @@ th{background:#0b1430}
 <!-- الغلاف -->
 <div id="cover" class="cover">
   <div class="coverInner">
+
     <div class="coverHeader">
       <div class="brandSmall" id="metaPlatformNameTop">منصّة إدارة الصف الذكية</div>
       <div class="badge">تعمل بدون إنترنت • تحفظ تلقائيًا</div>
@@ -136,10 +214,12 @@ th{background:#0b1430}
     <div class="coverHero">
       <h1 class="coverCalligraphy">الإدارة الصفية الذكية</h1>
       <div class="coverLine"></div>
-      <div class="small" id="metaTag" style="margin-top:6px">عجلة • مجموعات • حضور وغياب • تحفيز • رسائل أولياء الأمور</div>
+      <div class="small" id="metaTag" style="margin-top:6px">
+        عجلة • مجموعات • حضور وغياب • تحفيز • رسائل أولياء الأمور
+      </div>
       <div class="coverIcons">
-        <div class="pill">🎡 عجلة الطالبات</div>
-        <div class="pill">🎡 عجلة المجموعات</div>
+        <div class="pill">🎡 اختيار عشوائي</div>
+        <div class="pill">👥 مجموعات</div>
         <div class="pill">✅ حضور</div>
         <div class="pill">🏅 تحفيز</div>
         <div class="pill">✉️ أولياء الأمور</div>
@@ -159,10 +239,10 @@ th{background:#0b1430}
         <div class="small">مزايا المنصّة</div>
         <div class="note" style="margin-top:10px">
           ✅ فصول متعددة + حفظ منفصل لكل فصل<br>
-          ✅ سحب وإفلات للمجموعات<br>
-          ✅ عجلة للطالبات + عجلة للمجموعات<br>
+          ✅ سحب وإفلات للمجموعات (ويبقى الاسم في قائمة الصف)<br>
           ✅ الطالبة السرّية (تعيين/إخفاء/إظهار)<br>
-          ✅ إنذار/تعزيز + نقاط للمجموعة المتعاونة
+          ✅ إنذار/تعزيز للصف + نقاط للمجموعة المتعاونة<br>
+          ✅ رسائل أولياء الأمور (نسخ فقط)
         </div>
       </div>
     </div>
@@ -261,7 +341,7 @@ th{background:#0b1430}
 
       <div class="hr"></div>
 
-      <h3 style="margin:0 0 8px">رسائل أولياء الأمور</h3>
+      <h3 style="margin:0 0 8px">رسائل أولياء الأمور (نسخ فقط)</h3>
       <label>اختاري طالبة</label>
       <select id="msgStudent"></select>
       <div class="btns">
@@ -275,7 +355,7 @@ th{background:#0b1430}
     <!-- يمين -->
     <div class="card span-8">
       <h2 style="margin:0;color:var(--gold)">الإدارة الصفّية</h2>
-      <div class="small">سحب وإفلات للمجموعات + عجلة الطالبات + عجلة المجموعات + حضور/غياب/تأخر + نقاط.</div>
+      <div class="small">سحب وإفلات للمجموعات + عجلة اختيار + حضور/غياب/تأخر + نقاط.</div>
 
       <div class="hr"></div>
 
@@ -293,61 +373,27 @@ th{background:#0b1430}
 
       <div class="hr"></div>
 
-      <h3 style="margin:0 0 8px">🎡 العجلات (واحدة للمجموعات + واحدة للطالبات)</h3>
-
-      <div class="wheelsGrid">
-
-        <!-- عجلة المجموعات -->
-        <div class="card2">
-          <div class="wheelWrap">
-            <div class="wheel" id="wheelGroup"><div class="wheelCenter">👥</div></div>
-            <div style="flex:1;min-width:240px">
-              <div class="btns">
-                <button class="vio" onclick="spinGroupWheel()">تدوير عجلة المجموعات</button>
-                <button class="ghost" onclick="toggleNoRepeatGroups()">منع تكرار المجموعات</button>
-              </div>
-              <div class="note" id="pickGroupResult" style="margin-top:10px">
-                <b>نتيجة المجموعة:</b> —<br><span class="small">تختار من: المبدعات، الطموحات، الموهوبات، المتميزات (مع تجاهل الفارغة).</span>
-              </div>
-              <div class="btns" style="margin-top:8px">
-                <button onclick="awardPointsToChosenGroup(+5)">+5 للمجموعة المختارة</button>
-                <button onclick="awardPointsToChosenGroup(+10)">+10 للمجموعة المختارة</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- عجلة الطالبات -->
-        <div class="card2">
-          <div class="wheelWrap">
-            <div class="wheel" id="wheelStudent"><div class="wheelCenter">🎓</div></div>
-            <div style="flex:1;min-width:240px">
-              <div class="btns">
-                <button class="vio" onclick="spinStudentWheel()">تدوير عجلة الطالبات</button>
-                <button class="ghost" onclick="toggleNoRepeatStudents()">منع تكرار الطالبات</button>
-              </div>
-
-              <div class="btns" style="margin-top:8px">
-                <button class="ghost" onclick="toggleStudentWheelMode()">نمط العجلة: <span id="wheelModeTxt">كل الصف</span></button>
-              </div>
-
-              <div class="note" id="pickStudentResult" style="margin-top:10px">
-                <b>نتيجة الطالبة:</b> —<br><span class="small">إذا كان النمط "مجموعة مختارة": لازم تختارين مجموعة أولاً من عجلة المجموعات.</span>
-              </div>
-
-              <div class="btns" style="margin-top:8px">
-                <button class="ok" onclick="rewardPicked()">+10 للطالبة</button>
-                <button class="warn" onclick="warnPicked()">تنبيه للطالبة</button>
-                <button onclick="awardGroupPointsPicked()">+10 لمجموعة الطالبة</button>
-              </div>
-            </div>
+      <h3 style="margin:0 0 8px">🎡 العجلة (اختيار مجموعة ثم طالبة)</h3>
+      <div class="wheelWrap">
+        <div class="wheel" id="wheel"><div class="wheelCenter">🎡</div></div>
+        <div style="flex:1;min-width:240px">
+          <div class="btns">
+            <button class="vio" onclick="spinGroup()">اختيار مجموعة</button>
+            <button class="vio" onclick="spinStudentInChosenGroup()">اختيار طالبة من المجموعة</button>
+            <button class="ghost" onclick="toggleNoRepeatStudents()">منع تكرار الطالبات</button>
+            <button class="ghost" onclick="toggleNoRepeatGroups()">منع تكرار المجموعات</button>
           </div>
 
-          <div class="hr"></div>
-          <div class="small"><b>محتوى عجلة الطالبات (من أسماء الصف):</b></div>
-          <div class="note" id="wheelStudentsList" style="margin-top:8px">—</div>
-        </div>
+          <div class="note" id="pickResult" style="margin-top:10px">
+            <b>النتيجة:</b> —<br><span class="small">ابدئي باختيار مجموعة، ثم اختيار طالبة من المجموعة.</span>
+          </div>
 
+          <div class="btns" style="margin-top:8px">
+            <button class="ok" onclick="rewardPicked()">+10 للطالبة</button>
+            <button class="warn" onclick="warnPicked()">تنبيه للطالبة</button>
+            <button onclick="awardGroupPointsPicked()">+10 للمجموعة</button>
+          </div>
+        </div>
       </div>
 
       <div class="hr"></div>
@@ -420,12 +466,8 @@ function classNames(){
 }
 function getClass(name){ return data.classes[name]; }
 
-/* أسماء المجموعات */
+/* أسماء المجموعات بدل الأرقام */
 const groupNames = {1:"المبدعات",2:"الطموحات",3:"الموهوبات",4:"المتميزات"};
-function groupIdByName(n){
-  const e = Object.entries(groupNames).find(([k,v])=>v===n);
-  return e ? (+e[0]) : null;
-}
 
 /* ===================== الجلسة اليومية ===================== */
 function makeSession(){
@@ -436,9 +478,8 @@ function makeSession(){
     noRepeatGroups:false,
     usedStudentIds:[],
     usedGroups:[],
-    chosenGroup:null,   // 1..4
-    pickedId:null,      // student id
-    wheelMode:"all",    // "all" أو "group" (لطالبات المجموعة المختارة)
+    chosenGroup:null,
+    pickedId:null,
     log:`${today()} — تم بدء جلسة اليوم.\n`,
     attendance:{},   // id -> 0 present 1 absent 2 late
     points:{},       // نقاط الطالبة
@@ -494,6 +535,7 @@ function saveMeta(){
       if(!data.classes[name]) data.classes[name]={ students:[], secret:null, secretHidden:true };
     });
   }
+
   save();
   toggleMetaEdit();
   renderMeta();
@@ -565,6 +607,7 @@ function addStudent(){
   const cls=getClass(cname);
   const name=(el("studentName").value||"").trim();
   if(!name) return;
+
   const id = nextId(cls);
   cls.students.push({ id, name, group: 0 });
   el("studentName").value="";
@@ -578,10 +621,12 @@ function bulkAdd(){
   if(!text) return;
   const lines = text.split("\n").map(x=>x.trim()).filter(Boolean);
   if(!lines.length) return;
+
   lines.forEach(n=>{
     const id = nextId(cls);
     cls.students.push({ id, name:n, group:0 });
   });
+
   logAct(cname, `إضافة جماعية: ${lines.length} طالبة`);
   save();
 }
@@ -678,7 +723,6 @@ function classCalm(){
   s.noisy=false;
   s.praise++;
 
-  // اختيار مجموعة عشوائيًا من غير الفارغة وإضافة نقاط لها
   let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g));
   if(!groups.length) groups=[1,2,3,4];
   const g = groups[Math.floor(Math.random()*groups.length)];
@@ -697,14 +741,12 @@ function calmDown(){
   save();
 }
 
-/* ===================== عجلة المجموعات + عجلة الطالبات ===================== */
-let rotGroup=0, rotStudent=0;
-function spinAnim(elId, which){
-  const add = 720 + Math.floor(Math.random()*720);
-  if(which==="g"){ rotGroup += add; el(elId).style.transform = `rotate(${rotGroup}deg)`; }
-  else { rotStudent += add; el(elId).style.transform = `rotate(${rotStudent}deg)`; }
+/* ===================== العجلة ===================== */
+let wheelRot=0;
+function spinAnim(){
+  wheelRot += 720 + Math.floor(Math.random()*720);
+  el("wheel").style.transform = `rotate(${wheelRot}deg)`;
 }
-
 function toggleNoRepeatStudents(){
   const cname=currentClass();
   const s=ensureSession(cname);
@@ -721,14 +763,13 @@ function toggleNoRepeatGroups(){
   save();
   alert(s.noRepeatGroups ? "منع تكرار المجموعات: مفعل" : "منع تكرار المجموعات: ملغي");
 }
-
-function spinGroupWheel(){
+function spinGroup(){
   const cname=currentClass();
   const cls=getClass(cname);
   const s=ensureSession(cname);
 
-  let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g)); // تجاهل الفارغة
-  if(!groups.length) groups=[1,2,3,4];
+  let groups=[1,2,3,4].filter(g=>cls.students.some(st=>st.group===g));
+  if(!groups.length) return alert("اسحبي طالبات إلى مجموعات أولاً.");
 
   if(s.noRepeatGroups){
     const left = groups.filter(g => !s.usedGroups.includes(g));
@@ -740,36 +781,21 @@ function spinGroupWheel(){
   s.chosenGroup = g;
   if(s.noRepeatGroups) s.usedGroups.push(g);
 
-  spinAnim("wheelGroup","g");
+  spinAnim();
   setTimeout(()=>{
-    el("pickGroupResult").innerHTML = `<b>نتيجة المجموعة:</b> <span class="tag t-vio">${groupNames[g]}</span>`;
-    logAct(cname, `🎯 عجلة المجموعات: ${groupNames[g]}`);
+    el("pickResult").innerHTML = `<b>النتيجة:</b> تم اختيار <span class="tag t-vio">${groupNames[g]}</span><br><span class="small">الآن اضغطي: اختيار طالبة من المجموعة.</span>`;
+    logAct(cname, `🎯 اختيار مجموعة: ${groupNames[g]}`);
     save();
-  }, 550);
+  }, 900);
 }
-
-function toggleStudentWheelMode(){
-  const cname=currentClass();
-  const s=ensureSession(cname);
-  s.wheelMode = (s.wheelMode==="all") ? "group" : "all";
-  save();
-}
-
-function spinStudentWheel(){
+function spinStudentInChosenGroup(){
   const cname=currentClass();
   const cls=getClass(cname);
   const s=ensureSession(cname);
+  if(!s.chosenGroup) return alert("اختاري مجموعة أولاً.");
 
-  if(!cls.students.length) return alert("أضيفي أسماء الطالبات أولاً.");
-
-  let pool = cls.students.slice();
-
-  // إذا النمط "مجموعة مختارة" نفلتر على المجموعة المختارة
-  if(s.wheelMode==="group"){
-    if(!s.chosenGroup) return alert("اختاري مجموعة أولاً من عجلة المجموعات.");
-    pool = pool.filter(st=>st.group===s.chosenGroup);
-    if(!pool.length) return alert("المجموعة المختارة لا تحتوي طالبات. اسندي طالبات لها أولاً.");
-  }
+  let pool = cls.students.filter(st=>st.group===s.chosenGroup);
+  if(!pool.length) return alert("هذه المجموعة فارغة.");
 
   if(s.noRepeatStudents){
     const left = pool.filter(st => !s.usedStudentIds.includes(st.id));
@@ -781,50 +807,43 @@ function spinStudentWheel(){
   s.pickedId = pick.id;
   if(s.noRepeatStudents) s.usedStudentIds.push(pick.id);
 
-  spinAnim("wheelStudent","s");
+  spinAnim();
   setTimeout(()=>{
-    const gTxt = pick.group ? groupNames[pick.group] : "بدون مجموعة";
-    el("pickStudentResult").innerHTML =
-      `<b>نتيجة الطالبة:</b> <span class="tag t-gold">${esc(pick.name)}</span> (${pick.id}) — <span class="tag t-vio">${esc(gTxt)}</span>`;
-    logAct(cname, `🎲 عجلة الطالبات: ${pick.name} (${pick.id})`);
+    el("pickResult").innerHTML =
+      `<b>النتيجة:</b> <span class="tag t-vio">${groupNames[pick.group]}</span> → <span class="tag t-gold">${esc(pick.name)}</span> (${pick.id})`;
+    logAct(cname, `🎲 اختيار طالبة: ${pick.name} (${pick.id})`);
     save();
-  }, 550);
+  }, 900);
 }
-
 function rewardPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("دوري عجلة الطالبات أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
   addPoints(s.pickedId, +10);
   save();
 }
 function warnPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("دوري عجلة الطالبات أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
   addWarn(s.pickedId);
   save();
 }
 function awardGroupPointsPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("دوري عجلة الطالبات أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
   const cls=getClass(cname);
   const st=cls.students.find(x=>x.id===s.pickedId);
   if(!st || !st.group) return alert("الطالبة غير مسندة لمجموعة.");
   addGroupPoints(st.group, +10);
   save();
 }
-function awardPointsToChosenGroup(delta){
-  const cname=currentClass();
-  const s=ensureSession(cname);
-  if(!s.chosenGroup) return alert("اختاري مجموعة أولاً من عجلة المجموعات.");
-  addGroupPoints(s.chosenGroup, delta);
-  save();
-}
 
-/* ===================== الطالبة السرّية ===================== */
-function pickRandomStudent(cls){ return cls.students[Math.floor(Math.random()*cls.students.length)]; }
+/* ===================== الطالبة السرّية (تحسين) ===================== */
+function pickRandomStudent(cls){
+  return cls.students[Math.floor(Math.random()*cls.students.length)];
+}
 function setSecret(){
   const cname=currentClass();
   const cls=getClass(cname);
@@ -1071,21 +1090,7 @@ function renderSecretBox(cname){
   }
 }
 
-function renderWheelStudentsList(cname){
-  const cls=getClass(cname);
-  if(!cls.students.length){
-    el("wheelStudentsList").textContent = "—";
-    return;
-  }
-  const names = cls.students
-    .slice()
-    .sort((a,b)=>a.id.localeCompare(b.id))
-    .map(s=>`${s.name} (${s.id})`)
-    .join(" • ");
-  el("wheelStudentsList").textContent = names;
-}
-
-/* ===================== طباعة كشف (حل أوضح) ===================== */
+/* ===================== طباعة كشف ===================== */
 function printKashf(){
   const cname=currentClass();
   const cls=getClass(cname);
@@ -1111,7 +1116,7 @@ function printKashf(){
 <style>
 body{font-family:Tahoma; padding:18px}
 h2{margin:0 0 8px}
-.small{color:#555;line-height:1.6}
+.small{color:#555}
 table{width:100%;border-collapse:collapse;margin-top:12px}
 th,td{border:1px solid #333;padding:8px;text-align:center}
 th{background:#f2f2f2}
@@ -1126,23 +1131,10 @@ th{background:#f2f2f2}
 ${rows}
 </table>
 </body></html>`;
-
-  // طباعة عبر iframe لتقليل مشاكل الحظر
-  const iframe = document.createElement("iframe");
-  iframe.style.position="fixed";
-  iframe.style.right="0";
-  iframe.style.bottom="0";
-  iframe.style.width="0";
-  iframe.style.height="0";
-  iframe.style.border="0";
-  document.body.appendChild(iframe);
-  const doc = iframe.contentWindow.document;
-  doc.open(); doc.write(html); doc.close();
-  iframe.onload = () => {
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-    setTimeout(()=>document.body.removeChild(iframe), 800);
-  };
+  const w=window.open("","_blank");
+  w.document.open(); w.document.write(html); w.document.close();
+  w.focus();
+  setTimeout(()=>w.print(), 300);
 }
 
 /* ===================== تصدير/استيراد/حذف ===================== */
@@ -1199,33 +1191,21 @@ function syncAll(){
     el("classStatusBox").textContent = "—";
   }
 
-  // تحديث نص نمط عجلة الطالبات
-  el("wheelModeTxt").textContent = (s.wheelMode==="all") ? "كل الصف" : "المجموعة المختارة";
-
-  // تحديث نتائج العجلات (بدون إفساد آخر نتيجة)
-  const chosen = s.chosenGroup ? groupNames[s.chosenGroup] : null;
-  el("pickGroupResult").innerHTML = chosen ? `<b>نتيجة المجموعة:</b> <span class="tag t-vio">${chosen}</span>` : `<b>نتيجة المجموعة:</b> —`;
-
-  if(s.pickedId){
-    const cls=getClass(cname);
-    const st=cls.students.find(x=>x.id===s.pickedId);
-    if(st){
-      const gTxt = st.group ? groupNames[st.group] : "بدون مجموعة";
-      el("pickStudentResult").innerHTML = `<b>نتيجة الطالبة:</b> <span class="tag t-gold">${esc(st.name)}</span> (${st.id}) — <span class="tag t-vio">${esc(gTxt)}</span>`;
-    }else{
-      el("pickStudentResult").innerHTML = `<b>نتيجة الطالبة:</b> —`;
-    }
-  }else{
-    el("pickStudentResult").innerHTML = `<b>نتيجة الطالبة:</b> —`;
-  }
-
   renderMsgStudents(cname);
   renderSecretBox(cname);
   renderRoster(cname);
   renderGroups(cname);
   renderKashfTable(cname);
   renderSessionLog(cname);
-  renderWheelStudentsList(cname);
+
+  let result = `<b>النتيجة:</b> —<br><span class="small">ابدئي باختيار مجموعة، ثم اختيار طالبة من المجموعة.</span>`;
+  if(s.chosenGroup) result = `<b>النتيجة:</b> تم اختيار <span class="tag t-vio">${groupNames[s.chosenGroup]}</span> — الآن اختاري طالبة.`;
+  if(s.pickedId){
+    const cls=getClass(cname);
+    const st=cls.students.find(x=>x.id===s.pickedId);
+    if(st) result = `<b>النتيجة:</b> <span class="tag t-vio">${st.group?groupNames[st.group]:"—"}</span> → <span class="tag t-gold">${esc(st.name)}</span> (${st.id})`;
+  }
+  el("pickResult").innerHTML = result;
 }
 
 /* تشغيل */
@@ -1233,4 +1213,4 @@ renderMeta();
 syncAll();
 </script>
 </body>
-</html> 
+</html>
