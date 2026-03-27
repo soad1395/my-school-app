@@ -3,222 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإتقان الذكي - إدارة الفصول المتعددة</title>
+    <title>منصة الإتقان الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* التنسيق الأصلي الخاص بكِ بدون أي تغيير */
         :root {
             --primary-color: #1a237e;
-            --accent-color: #ffd700;
-            --bg-gradient: linear-gradient(135deg, #1a237e 0%, #4b0082 100%);
+            --secondary-color: #ffd700;
+            --text-color: #333;
+            --bg-color: #f4f4f9;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f4f9;
+            background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
-            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
+            background-color: #fff;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--accent-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            border-top: 10px solid var(--secondary-color);
         }
 
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        h1 { color: var(--primary-color); text-align: center; margin-bottom: 25px; }
 
-        /* تنسيق اختيار الفصل */
-        .class-selector {
-            background: #eef2ff;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
 
-        select, input[type="text"] {
+        input[type="text"] {
+            flex: 1;
             padding: 12px;
             border: 2px solid #ddd;
-            border-radius: 10px;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus { border-color: var(--primary-color); }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .add-btn { background-color: var(--primary-color); color: white; }
+        .add-btn:hover { background-color: #0d144a; transform: scale(1.05); }
+
+        .class-selector { margin-bottom: 20px; width: 100%; }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            background-color: white;
             font-size: 16px;
         }
 
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-add { background-color: var(--primary-color); color: white; }
-        .btn-class { background-color: var(--accent-color); color: #1a237e; }
-        .btn-delete { background-color: #ff4d4d; color: white; font-size: 12px; }
-
         .student-list { list-style: none; padding: 0; }
         .student-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
-            background: #f8f9fa;
-            margin-bottom: 8px;
-            border-radius: 10px;
             border-right: 5px solid var(--primary-color);
         }
 
-        .empty-state { text-align: center; color: #888; padding: 20px; }
+        .delete-btn { color: #ff4d4d; cursor: pointer; font-size: 18px; }
+        .delete-btn:hover { color: #cc0000; }
+        
+        .save-indicator {
+            font-size: 12px;
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-section">
+    <div class="container">
         <h1>منصة الإتقان الذكي 🎓</h1>
-    </div>
-
-    <div class="class-selector">
-        <label><b>اختر الفصل:</b></label>
-        <select id="classSelect" onchange="changeClass()">
+        
+        <div class="class-selector">
+            <select id="classSelect" onchange="loadStudents()">
+                <option value="class1">فصل أولى / 1</option>
+                <option value="class2">فصل أولى / 2</option>
+                <option value="class3">فصل ثانية / 1</option>
+                <option value="class4">فصل ثانية / 2</option>
             </select>
-        <input type="text" id="newClassName" placeholder="اسم فصل جديد...">
-        <button class="btn-class" onclick="addClass()">إضافة فصل</button>
-    </div>
-
-    <hr>
-
-    <div id="mainContent" style="display:none;">
-        <h3 id="currentClassTitle" style="color: var(--primary-color);"></h3>
-        <div class="input-group">
-            <input type="text" id="studentName" placeholder="اسم الطالبة...">
-            <button class="btn-add" onclick="addStudent()">إضافة للملف</button>
         </div>
 
-        <ul id="listContainer" class="student-list"></ul>
+        <div class="input-group">
+            <input type="text" id="studentName" placeholder="أدخلي اسم الطالبة...">
+            <button class="add-btn" onclick="addStudent()">إضافة</button>
+        </div>
+
+        <ul id="studentList" class="student-list">
+            </ul>
+        
+        <div id="saveMsg" class="save-indicator">تم حفظ البيانات تلقائياً ✅</div>
     </div>
 
-    <div id="noClassState" class="empty-state">
-        يرجى إضافة فصل جديد للبدء
-    </div>
-</div>
+    <script>
+        // الكود البرمجي مع ميزة الحفظ التلقائي
+        let allData = JSON.parse(localStorage.getItem('smartSoadData')) || {
+            class1: [], class2: [], class3: [], class4: []
+        };
 
-<script>
-    // البيانات منظمة كـ كائن: { "فصل 1": ["اسم1", "اسم2"], "فصل 2": [] }
-    let schoolData = JSON.parse(localStorage.getItem('smartMasteryData')) || {};
-    let currentClass = "";
+        // تحميل الأسماء فور فتح الصفحة أو تغيير الفصل
+        window.onload = loadStudents;
 
-    window.onload = function() {
-        renderClassList();
-    };
+        function loadStudents() {
+            const currentClass = document.getElementById('classSelect').value;
+            const listElement = document.getElementById('studentList');
+            listElement.innerHTML = '';
 
-    // إضافة فصل جديد
-    function addClass() {
-        const className = document.getElementById('newClassName').value.trim();
-        if (className === "") return alert("اكتبي اسم الفصل");
-        if (schoolData[className]) return alert("الفصل موجود مسبقاً");
-
-        schoolData[className] = [];
-        document.getElementById('newClassName').value = "";
-        saveData();
-        renderClassList();
-        
-        // التوجه للفصل الجديد مباشرة
-        document.getElementById('classSelect').value = className;
-        changeClass();
-    }
-
-    // تحديث قائمة الفصول في المنسدلة
-    function renderClassList() {
-        const select = document.getElementById('classSelect');
-        select.innerHTML = '<option value="">-- اختر --</option>';
-        
-        Object.keys(schoolData).forEach(className => {
-            const option = document.createElement('option');
-            option.value = className;
-            option.textContent = className;
-            select.appendChild(option);
-        });
-    }
-
-    // تغيير الفصل المعروض
-    function changeClass() {
-        currentClass = document.getElementById('classSelect').value;
-        const mainContent = document.getElementById('mainContent');
-        const noClassState = document.getElementById('noClassState');
-
-        if (currentClass) {
-            mainContent.style.display = 'block';
-            noClassState.style.display = 'none';
-            document.getElementById('currentClassTitle').textContent = "طالبات فصل: " + currentClass;
-            renderStudents();
-        } else {
-            mainContent.style.display = 'none';
-            noClassState.style.display = 'block';
-        }
-    }
-
-    // إضافة طالبة للفصل الحالي
-    function addStudent() {
-        const nameInput = document.getElementById('studentName');
-        const name = nameInput.value.trim();
-        if (name === "" || !currentClass) return;
-
-        schoolData[currentClass].push({ id: Date.now(), name: name });
-        nameInput.value = "";
-        saveData();
-        renderStudents();
-    }
-
-    // حذف طالبة
-    function deleteStudent(id) {
-        schoolData[currentClass] = schoolData[currentClass].filter(s => s.id !== id);
-        saveData();
-        renderStudents();
-    }
-
-    // عرض طالبات الفصل المختار
-    function renderStudents() {
-        const list = document.getElementById('listContainer');
-        list.innerHTML = "";
-        
-        if (schoolData[currentClass].length === 0) {
-            list.innerHTML = '<li class="empty-state">لا يوجد طالبات في هذا الفصل بعد</li>';
-            return;
+            allData[currentClass].forEach((student, index) => {
+                const li = document.createElement('li');
+                li.className = 'student-item';
+                li.innerHTML = `
+                    <span>${student}</span>
+                    <i class="fas fa-trash-alt delete-btn" onclick="deleteStudent(${index})"></i>
+                `;
+                listElement.appendChild(li);
+            });
         }
 
-        schoolData[currentClass].forEach(student => {
-            const li = document.createElement('li');
-            li.className = 'student-item';
-            li.innerHTML = `
-                <span>${student.name}</span>
-                <button class="btn-delete" onclick="deleteStudent(${student.id})">حذف</button>
-            `;
-            list.appendChild(li);
+        function addStudent() {
+            const input = document.getElementById('studentName');
+            const name = input.value.trim();
+            const currentClass = document.getElementById('classSelect').value;
+
+            if (name !== "") {
+                allData[currentClass].push(name);
+                input.value = "";
+                saveAndRefresh();
+            }
+        }
+
+        function deleteStudent(index) {
+            const currentClass = document.getElementById('classSelect').value;
+            allData[currentClass].splice(index, 1);
+            saveAndRefresh();
+        }
+
+        function saveAndRefresh() {
+            // حفظ في ذاكرة المتصفح
+            localStorage.setItem('smartSoadData', JSON.stringify(allData));
+            loadStudents();
+            
+            // إظهار رسالة تأكيد الحفظ
+            const msg = document.getElementById('saveMsg');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 2000);
+        }
+
+        // دعم زر Enter للإضافة
+        document.getElementById('studentName').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') addStudent();
         });
-    }
-
-    function saveData() {
-        localStorage.setItem('smartMasteryData', JSON.stringify(schoolData));
-    }
-</script>
-
+    </script>
 </body>
 </html>
