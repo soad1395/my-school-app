@@ -1,35 +1,5 @@
- <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>منصّة إدارة الصف الذكية</title>
-<style>
-:root{
-  --bg:#0b1020; --card:#111a35; --card2:#0e1631; --line:#2a3355;
-  --gold:#D4AF37; --txt:#fff; --muted:#b9c0d6;
-  --ok:#2EA043; --warn:#F59F00; --bad:#E24B4B; --vio:#4C2F8C;
-}
-*{box-sizing:border-box}
-body{margin:0;padding:14px;font-family:Tahoma,Arial;background:var(--bg);color:var(--txt)}
-h1{margin:0 0 6px;color:var(--gold);font-weight:1000;text-align:center}
-p{margin:4px 0;color:var(--muted);font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
-.card2{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px}
-.span-12{grid-column:span 12}
-.span-8{grid-column:span 8}
-.span-4{grid-column:span 4}
-@media (max-width:980px){.span-8,.span-4{grid-column:span 12} body{padding:10px}}
-label{display:block;font-size:12px;color:var(--muted);margin:6px 0 4px}
-input,select,textarea{
-  width:100%;padding:10px 11px;border-radius:12px;border:1px solid var(--line);
-  background:#0b1430;color:var(--txt);outline:none
-}
-textarea{min-height:90px;resize:vertical}
-.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-button{
-  border:none;padding:10px 12px;border-radius:999px;cursor:pointer;
+
+;padding:10px 12px;border-radius:999px;cursor:pointer;
   background:var(--gold);color:#0b1020;font-weight:1000
 }
 button.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
@@ -570,26 +540,14 @@ function saveTeacherEmail(){
 /* ===================== اختيار الفصل ===================== */
 function renderClassSelector(){
   const sel=el("classSelect");
-  const last = localStorage.getItem("last_class");
-
-  const current = sel.value;
-
   sel.innerHTML="";
-
   classNames().forEach(name=>{
     sel.innerHTML += `<option value="${esc(name)}">${esc(name)}</option>`;
   });
-
-  if(current && classNames().includes(current)){
-    sel.value = current;
-  }
-  else if(last && classNames().includes(last)){
-    sel.value = last;
-  }
-  else{
-    sel.value = classNames()[0] || "";
-  }
+  if(!sel.value) sel.value = classNames()[0] || "";
 }
+function currentClass(){ return el("classSelect").value; }
+
 /* ===================== أرقام الطالبات ===================== */
 function nextId(cls){
   let max=0;
@@ -1222,7 +1180,6 @@ function wipeAll(){
 
 /* ===================== مزامنة كاملة ===================== */
 function syncAll(){
- localStorage.setItem("last_class", currentClass());
   renderMeta();
   renderClassSelector();
 
@@ -1275,4 +1232,4 @@ renderMeta();
 syncAll();
 </script>
 </body>
-</html>ع
+</html>  
