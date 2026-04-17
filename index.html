@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <title>منصّة إدارة الصف الذكية</title>
 <style>
 :root{
@@ -22,8 +19,9 @@ p{margin:4px 0;color:var(--muted);font-weight:700}
 .card2{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px}
 .span-12{grid-column:span 12}
 .span-8{grid-column:span 8}
+.span-6{grid-column:span 6}
 .span-4{grid-column:span 4}
-@media (max-width:980px){.span-8,.span-4{grid-column:span 12} body{padding:10px}}
+@media (max-width:980px){.span-8,.span-4,.span-6{grid-column:span 12} body{padding:10px}}
 label{display:block;font-size:12px;color:var(--muted);margin:6px 0 4px}
 input,select,textarea{
   width:100%;padding:10px 11px;border-radius:12px;border:1px solid var(--line);
@@ -49,10 +47,9 @@ button.vio{background:var(--vio);color:#fff}
 .t-bad{background:rgba(226,75,75,.18);color:#ffb7b7;border:1px solid rgba(226,75,75,.35)}
 .t-gold{background:rgba(212,175,55,.14);color:#ffe8a6;border:1px solid rgba(212,175,55,.35)}
 .t-vio{background:rgba(76,47,140,.18);color:#d7c7ff;border:1px solid rgba(76,47,140,.35)}
-
 .hidden{display:none}
 
-/* ===== الغلاف الجديد ===== */
+/* ===== الغلاف ===== */
 .cover{
   border-radius:18px;border:1px solid var(--line);overflow:hidden;
   background:
@@ -70,18 +67,11 @@ button.vio{background:var(--vio);color:#fff}
   background:rgba(212,175,55,.12);color:#ffe8a6;font-weight:1000;font-size:12px
 }
 .coverHero{
-  margin-top:14px;
-  border-radius:18px;
-  border:1px solid rgba(212,175,55,.25);
-  background:rgba(11,20,48,.55);
-  padding:18px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+  margin-top:14px;border-radius:18px;border:1px solid rgba(212,175,55,.25);
+  background:rgba(11,20,48,.55);padding:18px;text-align:center;position:relative;overflow:hidden;
 }
 .coverHero:before{
-  content:"";
-  position:absolute; inset:-40px;
+  content:"";position:absolute; inset:-40px;
   background:
     radial-gradient(200px 200px at 15% 20%, rgba(212,175,55,.20), transparent 60%),
     radial-gradient(220px 220px at 85% 30%, rgba(76,47,140,.20), transparent 65%),
@@ -90,43 +80,21 @@ button.vio{background:var(--vio);color:#fff}
 }
 .coverHero > *{position:relative}
 .coverCalligraphy{
-  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", Tahoma, Arial;
-  font-weight:900;
-  font-size:34px;
-  color:var(--gold);
-  letter-spacing:.5px;
-  margin:0;
+  font-family:"Amiri","Scheherazade New","Noto Naskh Arabic",Tahoma,Arial;
+  font-weight:900;font-size:34px;color:var(--gold);letter-spacing:.5px;margin:0;
 }
 .coverLine{
-  width:min(520px,90%);
-  height:1px;
+  width:min(520px,90%);height:1px;
   background:linear-gradient(90deg,transparent,rgba(212,175,55,.75),transparent);
   margin:10px auto;
 }
-.coverIcons{
-  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
-  margin-top:10px;
-}
+.coverIcons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .pill{
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(42,51,85,.9);
-  background:rgba(14,20,48,.55);
-  color:#e8ecff;
-  font-weight:900;
-  font-size:12px;
+  padding:6px 10px;border-radius:999px;border:1px solid rgba(42,51,85,.9);
+  background:rgba(14,20,48,.55);color:#e8ecff;font-weight:900;font-size:12px;
 }
-.brandSmall{
-  font-weight:1000;
-  color:#e8ecff;
-  opacity:.95;
-}
-.rights{
-  margin-top:14px;
-  text-align:center;
-  color:rgba(255,255,255,.55);
-  font-size:12px;
-}
+.brandSmall{font-weight:1000;color:#e8ecff;opacity:.95}
+.rights{margin-top:14px;text-align:center;color:rgba(255,255,255,.55);font-size:12px}
 
 /* ===== عجلة ===== */
 .wheelWrap{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -152,8 +120,7 @@ button.vio{background:var(--vio);color:#fff}
 /* ===== المجموعات ===== */
 .groupBox{
   border:1px solid var(--line); border-radius:14px; padding:10px;
-  background:#0b1430;
-  min-height:170px;
+  background:#0b1430; min-height:170px;
 }
 .groupTitle{
   display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
@@ -162,8 +129,7 @@ button.vio{background:var(--vio);color:#fff}
 .dropHint{
   margin-top:8px;padding:8px;border-radius:12px;
   border:1px dashed rgba(212,175,55,.35);
-  color:#ffe8a6;background:rgba(212,175,55,.08);
-  font-size:12px;
+  color:#ffe8a6;background:rgba(212,175,55,.08);font-size:12px;
 }
 .groupList{margin-top:8px;display:flex;flex-direction:column;gap:6px}
 .stRow{
@@ -176,23 +142,11 @@ button.vio{background:var(--vio);color:#fff}
 
 /* ===== قائمة الصف ===== */
 .roster{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:10px;
-  background:#0b1430;
-  max-height:340px;
-  overflow:auto;
+  border:1px solid var(--line);border-radius:14px;padding:10px;background:#0b1430;max-height:340px;overflow:auto;
 }
 .rosterItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  padding:8px;
-  border-radius:12px;
-  border:1px solid rgba(42,51,85,.85);
-  background:rgba(14,20,48,.55);
-  margin:6px 0;
+  display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px;
+  border-radius:12px;border:1px solid rgba(42,51,85,.85);background:rgba(14,20,48,.55);margin:6px 0;
 }
 .rosterItem input{width:260px;max-width:70vw}
 .drag{cursor:grab;user-select:none}
@@ -205,10 +159,8 @@ th{background:#0b1430}
 </head>
 <body>
 
-<!-- الغلاف -->
 <div id="cover" class="cover">
   <div class="coverInner">
-
     <div class="coverHeader">
       <div class="brandSmall" id="metaPlatformNameTop">منصّة إدارة الصف الذكية</div>
       <div class="badge">تعمل بدون إنترنت • تحفظ تلقائيًا</div>
@@ -258,7 +210,7 @@ th{background:#0b1430}
 
     <div id="metaEdit" class="card2 hidden" style="margin-top:12px">
       <h3 style="margin:0 0 8px;color:var(--gold)">تعديل بيانات الغلاف</h3>
-      <div class="small">تُحفظ محليًا داخل جهازك.</div>
+      <div class="small">تُحفظ داخل نفس الجهاز والمتصفح.</div>
       <div class="grid" style="margin-top:8px">
         <div class="span-6">
           <label>اسم المنصّة</label><input id="inPlatform" />
@@ -282,7 +234,6 @@ th{background:#0b1430}
   </div>
 </div>
 
-<!-- التطبيق -->
 <div id="app" class="hidden">
   <h1 id="appH1">منصّة إدارة الصف الذكية</h1>
   <p id="appSchool">المتوسطة الثانية والأربعون – الثانوية السادسة والثلاثون</p>
@@ -291,7 +242,6 @@ th{background:#0b1430}
   <p class="small" id="appEmail">بريد المعلمة: —</p>
 
   <div class="grid">
-
     <div class="card span-12">
       <div class="btns">
         <button class="ghost" onclick="backToCover()">العودة للغلاف</button>
@@ -300,10 +250,9 @@ th{background:#0b1430}
         <button class="ghost" onclick="printKashf()">طباعة كشف</button>
         <button class="bad" onclick="wipeAll()">حذف البيانات (بأمرك)</button>
       </div>
-      <div class="small">ملاحظة: كل البيانات تُحفظ على جهازك فقط.</div>
+      <div class="small">ملاحظة: البيانات محفوظة داخل نفس الجهاز والمتصفح.</div>
     </div>
 
-    <!-- يسار -->
     <div class="card span-4">
       <h3 style="margin:0 0 10px">إدارة الفصول</h3>
 
@@ -325,7 +274,7 @@ th{background:#0b1430}
 
       <h3 style="margin:0 0 8px">بريد المعلمة (توليد تلقائي)</h3>
       <div class="btns">
-        <button class="vio" onclick="autoGenerateTeacherEmail()">توليد البريد تلقائيًا</button>
+        <button class="vio" onclick="autoGenerateTeacherEmail('general')">توليد البريد تلقائيًا</button>
         <button class="ghost" onclick="saveTeacherEmail()">حفظ البريد</button>
       </div>
       <input id="teacherEmail" placeholder="example@school.edu">
@@ -355,7 +304,6 @@ th{background:#0b1430}
       <div class="note" id="parentMsgBox">—</div>
     </div>
 
-    <!-- يمين -->
     <div class="card span-8">
       <h2 style="margin:0;color:var(--gold)">الإدارة الصفّية</h2>
       <div class="small">سحب وإفلات للمجموعات + عجلة اختيار + حضور/غياب/تأخر + نقاط.</div>
@@ -420,23 +368,14 @@ th{background:#0b1430}
       <div class="hr"></div>
       <h3 style="margin:0 0 6px">سجل الحصة</h3>
       <textarea id="sessionLog" readonly></textarea>
-
     </div>
-
   </div>
 </div>
 
 <script>
 /* ===================== التخزين ===================== */
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = "PUT_YOUR_PROJECT_URL_HERE";
-const SUPABASE_ANON_KEY = "PUT_YOUR_ANON_KEY_HERE";
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const APP_KEY = "smart_class_all_classes_v3";
-let data = null;
+const STORE = "smart_class_all_classes_v4";
+let data = JSON.parse(localStorage.getItem(STORE) || "null");
 
 function defaultData(){
   return {
@@ -457,45 +396,32 @@ function defaultData(){
     sessions:{}
   };
 }
+if(!data) data = defaultData();
 
-async function loadRemoteData(){
-  const { data: row, error } = await supabase
-    .from("app_storage")
-    .select("*")
-    .eq("app_key", APP_KEY)
-    .single();
-
-  if (error || !row) {
-    data = defaultData();
-    await saveSilent();
-    return;
-  }
-
-  data = row.payload || defaultData();
+function saveSilent(){
+  localStorage.setItem(STORE, JSON.stringify(data));
 }
-
-async function saveSilent(){
-  if (!data) return;
-
-  await supabase
-    .from("app_storage")
-    .upsert({
-      app_key: APP_KEY,
-      payload: data,
-      updated_at: new Date().toISOString()
-    });
-}
-
-async function save(){
-  await saveSilent();
+function save(){
+  saveSilent();
   syncAll();
 }
-</script>
+saveSilent();
+
 /* ===================== أدوات ===================== */
 const el=(id)=>document.getElementById(id);
 const esc=(s)=>String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 const today=()=>new Date().toISOString().slice(0,10);
-const nowTime=()=>new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+const nowTime=()=>new Date().toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"});
+
+function copyToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text)
+      .then(()=>alert("تم نسخ النص."))
+      .catch(()=>prompt("انسخي النص:", text));
+  }else{
+    prompt("انسخي النص:", text);
+  }
+}
 
 function classNames(){
   const set=new Set(data.classOrder || []);
@@ -504,14 +430,15 @@ function classNames(){
 }
 function getClass(name){ return data.classes[name]; }
 
-/* أسماء المجموعات بدل الأرقام */
 const groupNames = {1:"المبدعات",2:"الطموحات",3:"الموهوبات",4:"المتميزات"};
 
 /* ===================== الجلسة اليومية ===================== */
 function makeSession(){
   return {
     date: today(),
-    warnings:0, praise:0, noisy:false,
+    warnings:0,
+    praise:0,
+    noisy:false,
     noRepeatStudents:true,
     noRepeatGroups:false,
     usedStudentIds:[],
@@ -519,10 +446,10 @@ function makeSession(){
     chosenGroup:null,
     pickedId:null,
     log:`${today()} — تم بدء جلسة اليوم.\n`,
-    attendance:{},   // id -> 0 present 1 absent 2 late
-    points:{},       // نقاط الطالبة
-    warns:{},        // تنبيهات الطالبة
-    groupPoints:{1:0,2:0,3:0,4:0} // نقاط المجموعات
+    attendance:{},
+    points:{},
+    warns:{},
+    groupPoints:{1:0,2:0,3:0,4:0}
   };
 }
 function ensureSession(className){
@@ -557,7 +484,7 @@ function toggleMetaEdit(){
   el("inPrincipal").value=m.principal||"";
   el("inTeacher").value=m.teacher||"";
   el("inEmail").value=m.email||"";
-  el("inClasses").value = classNames().join("\n");
+  el("inClasses").value=classNames().join("\n");
 }
 function saveMeta(){
   data.meta.platformName = (el("inPlatform").value||"").trim() || "منصّة إدارة الصف الذكية";
@@ -566,7 +493,7 @@ function saveMeta(){
   data.meta.teacher = (el("inTeacher").value||"").trim() || "";
   data.meta.email = (el("inEmail").value||"").trim() || "";
 
-  const lines = (el("inClasses").value||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const lines=(el("inClasses").value||"").split("\n").map(x=>x.trim()).filter(Boolean);
   if(lines.length){
     data.classOrder = lines;
     lines.forEach(name=>{
@@ -593,7 +520,7 @@ function renderMeta(){
   el("appEmail").textContent = "بريد المعلمة: " + (m.email || "—");
 }
 
-/* ===================== بريد المعلمة (توليد) ===================== */
+/* ===================== بريد المعلمة ===================== */
 function slugifyEmailBase(name){
   const cleaned = String(name||"").trim();
   const latin = cleaned
@@ -603,14 +530,23 @@ function slugifyEmailBase(name){
     .toLowerCase();
   return latin || "teacher";
 }
-function autoGenerateTeacherEmail(){
+function topicSlug(topic){
+  const map = {
+    praise:"praise",
+    warn:"warning",
+    absence:"absence",
+    general:"general"
+  };
+  return map[topic] || "general";
+}
+function autoGenerateTeacherEmail(topic="general"){
   const base = slugifyEmailBase(data.meta.teacher || "teacher");
-  const email = `${base}@school.edu`;
+  const email = `${base}.${topicSlug(topic)}@school.edu`;
   data.meta.email = email;
   el("teacherEmail").value = email;
-  logAct(currentClass(), `تم توليد بريد المعلمة تلقائيًا: ${email}`);
+  logAct(currentClass(), `تم توليد بريد المعلمة تلقائيًا حسب الموضوع: ${email}`);
   save();
-  alert("تم توليد البريد وحفظه.");
+  return email;
 }
 function saveTeacherEmail(){
   data.meta.email = (el("teacherEmail").value||"").trim();
@@ -636,7 +572,7 @@ function nextId(cls){
     const n=parseInt(s.id,10);
     if(!isNaN(n)) max=Math.max(max,n);
   });
-  return String(max+1).padStart(3,'0');
+  return String(max+1).padStart(3,"0");
 }
 
 /* ===================== الطالبات ===================== */
@@ -647,7 +583,7 @@ function addStudent(){
   if(!name) return;
 
   const id = nextId(cls);
-  cls.students.push({ id, name, group: 0 });
+  cls.students.push({ id, name, group:0 });
   el("studentName").value="";
   logAct(cname, `إضافة طالبة: ${name} (${id})`);
   save();
@@ -878,7 +814,7 @@ function awardGroupPointsPicked(){
   save();
 }
 
-/* ===================== الطالبة السرّية (تحسين) ===================== */
+/* ===================== الطالبة السرّية ===================== */
 function pickRandomStudent(cls){
   return cls.students[Math.floor(Math.random()*cls.students.length)];
 }
@@ -907,7 +843,7 @@ function revealSecret(){
   const cls=getClass(cname);
   if(!cls.secret) return alert("لم يتم تعيين طالبة سرّية بعد.");
   const st = cls.students.find(x=>x.id===cls.secret);
-  if(!st) return alert("الطالبة السرّية غير موجودة (قد تكون حُذفت). عيّني سرّية جديدة.");
+  if(!st) return alert("الطالبة السرّية غير موجودة. عيّني سرّية جديدة.");
   cls.secretHidden = false;
   el("secretBox").innerHTML = `<b>الطالبة السرّية:</b> ${esc(st.name)} — (${st.id}) — <b>${st.group?groupNames[st.group]:"بدون مجموعة"}</b>`;
   logAct(cname, `إظهار الطالبة السرّية (${st.id})`);
@@ -976,41 +912,6 @@ ${teacherName}
 
   el("parentMsgBox").textContent = msg;
   el("teacherEmail").value = teacherEmail;
-  copyToClipboard(msg);
-}
-}
-function copyParentMsg(type){
-  const cname=currentClass();
-  const cls=getClass(cname);
-  const s=ensureSession(cname);
-  const idx=el("msgStudent").value;
-  if(idx==="") return alert("اختاري طالبة.");
-
-  const st=cls.students[+idx];
-  const status = s.attendance[st.id] ?? 0;
-  const statusText = status===0 ? "حضور" : status===1 ? "غياب" : "تأخر";
-  const teacherName = (data.meta.teacher || "المعلمة");
-
-  let msg="";
-  if(type==="praise"){
-    msg =
-`ولي أمر الطالبة/ ${st.name} حفظه الله،
-نحيطكم علمًا بأن ابنتكم أظهرت انضباطًا وتفاعلًا مميزًا خلال الحصة، ونشكر دعمكم المتواصل.
-${teacherName}`;
-  }else if(type==="warn"){
-    msg =
-`ولي أمر الطالبة/ ${st.name} حفظه الله،
-لوحظ على ابنتكم ملاحظات سلوكية/تشتت أثناء الحصة، ونأمل منكم المتابعة والتوجيه لتحقيق الانضباط.
-${teacherName}`;
-  }else{
-    msg =
-`ولي أمر الطالبة/ ${st.name} حفظه الله،
-نفيدكم بأن حالة ابنتكم اليوم: ${statusText}.
-نأمل تزويدنا بسبب ذلك، شاكرين تعاونكم.
-${teacherName}`;
-  }
-
-  el("parentMsgBox").textContent = msg;
   copyToClipboard(msg);
 }
 
@@ -1283,11 +1184,8 @@ function syncAll(){
 }
 
 /* تشغيل */
-(async function initApp(){
-  await loadRemoteData();
-  renderMeta();
-  syncAll();
-})();;
+renderMeta();
+syncAll();
 </script>
 </body>
 </html>
