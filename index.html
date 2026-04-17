@@ -425,8 +425,15 @@ th{background:#0b1430}
 
 <script>
 /* ===================== التخزين ===================== */
-const STORE="smart_class_all_classes_v3";
-let data = JSON.parse(localStorage.getItem(STORE) || "null");
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "PUT_YOUR_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PUT_YOUR_ANON_KEY_HERE";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const APP_KEY = "smart_class_all_classes_v3";
+let data = null;
 
 function defaultData(){
   return {
@@ -447,12 +454,40 @@ function defaultData(){
     sessions:{}
   };
 }
-if(!data) data = defaultData();
-saveSilent();
 
-function saveSilent(){ localStorage.setItem(STORE, JSON.stringify(data)); }
-function save(){ saveSilent(); syncAll(); }
+async function loadRemoteData(){
+  const { data: row, error } = await supabase
+    .from("app_storage")
+    .select("*")
+    .eq("app_key", APP_KEY)
+    .single();
 
+  if (error || !row) {
+    data = defaultData();
+    await saveSilent();
+    return;
+  }
+
+  data = row.payload || defaultData();
+}
+
+async function saveSilent(){
+  if (!data) return;
+
+  await supabase
+    .from("app_storage")
+    .upsert({
+      app_key: APP_KEY,
+      payload: data,
+      updated_at: new Date().toISOString()
+    });
+}
+
+async function save(){
+  await saveSilent();
+  syncAll();
+}
+</script>
 /* ===================== أدوات ===================== */
 const el=(id)=>document.getElementById(id);
 const esc=(s)=>String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
@@ -900,10 +935,46 @@ function renderMsgStudents(cname){
     sel.innerHTML += `<option value="${i}">${esc(st.name)} (${st.id})</option>`;
   });
 }
-function copyToClipboard(text){
-  navigator.clipboard.writeText(text)
-    .then(()=>alert("تم نسخ النص."))
-    .catch(()=>prompt("انسخي النص:", text));
+function copyParentMsg(type){
+  const cname=currentClass();
+  const cls=getClass(cname);
+  const s=ensureSession(cname);
+  const idx=el("msgStudent").value;
+  if(idx==="") return alert("اختاري طالبة.");
+
+  const st=cls.students[+idx];
+  const status = s.attendance[st.id] ?? 0;
+  const statusText = status===0 ? "حضور" : status===1 ? "غياب" : "تأخر";
+
+  const teacherEmail = autoGenerateTeacherEmail(type);
+  const teacherName = (data.meta.teacher || "المعلمة");
+
+  let msg="";
+  if(type==="praise"){
+    msg =
+`ولي أمر الطالبة/ ${st.name} حفظه الله،
+نحيطكم علمًا بأن ابنتكم أظهرت انضباطًا وتفاعلًا مميزًا خلال الحصة، ونشكر دعمكم المتواصل.
+${teacherName}
+البريد: ${teacherEmail}`;
+  }else if(type==="warn"){
+    msg =
+`ولي أمر الطالبة/ ${st.name} حفظه الله،
+لوحظ على ابنتكم ملاحظات سلوكية أو تشتت أثناء الحصة، ونأمل منكم المتابعة والتوجيه لتحقيق الانضباط.
+${teacherName}
+البريد: ${teacherEmail}`;
+  }else{
+    msg =
+`ولي أمر الطالبة/ ${st.name} حفظه الله،
+نفيدكم بأن حالة ابنتكم اليوم: ${statusText}.
+نأمل تزويدنا بسبب ذلك، شاكرين تعاونكم.
+${teacherName}
+البريد: ${teacherEmail}`;
+  }
+
+  el("parentMsgBox").textContent = msg;
+  el("teacherEmail").value = teacherEmail;
+  copyToClipboard(msg);
+}
 }
 function copyParentMsg(type){
   const cname=currentClass();
@@ -1209,8 +1280,11 @@ function syncAll(){
 }
 
 /* تشغيل */
-renderMeta();
-syncAll();
+(async function initApp(){
+  await loadRemoteData();
+  renderMeta();
+  syncAll();
+})();;
 </script>
 </body>
 </html>
