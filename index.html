@@ -219,7 +219,7 @@ th{background:#0b1430}
         </div>
         <div class="span-6">
           <label>اسم المعلمة</label><input id="inTeacher" />
-          <label>بريد المعلمة (أو اتركيه للتوليد التلقائي)</label><input id="inEmail" />
+          <label>بريد المعلمة (هذا الحقل للرسالة الجاهزة)</label><input id="inEmail" />
           <label>أسماء الفصول (سطر لكل فصل)</label>
           <textarea id="inClasses" placeholder="ثانية أول&#10;ثانية ثاني&#10;ثانية ثالث&#10;ثانية رابع"></textarea>
         </div>
@@ -272,13 +272,22 @@ th{background:#0b1430}
 
       <div class="hr"></div>
 
-      <h3 style="margin:0 0 8px">بريد المعلمة (توليد تلقائي)</h3>
+      <h3 style="margin:0 0 8px">بريد المعلمة</h3>
+      <label>اختاري موضوع الرسالة الجاهز</label>
       <div class="btns">
-        <button class="vio" onclick="autoGenerateTeacherEmail('general')">توليد البريد تلقائيًا</button>
-        <button class="ghost" onclick="saveTeacherEmail()">حفظ البريد</button>
+        <button class="vio" onclick="setTopicAndGenerate('مشاركة مميزة')">مشاركة</button>
+        <button class="vio" onclick="setTopicAndGenerate('واجب ناقص')">واجب</button>
+        <button class="vio" onclick="setTopicAndGenerate('تأخر')">تأخر</button>
+        <button class="vio" onclick="setTopicAndGenerate('غياب')">غياب</button>
+        <button class="vio" onclick="setTopicAndGenerate('سلوك رائع')">سلوك رائع</button>
       </div>
-      <input id="teacherEmail" placeholder="example@school.edu">
-      <div class="small" id="emailHint">—</div>
+      <input id="messageTopic" placeholder="أو اكتبي موضوعًا بنفسك">
+      <div class="btns">
+        <button class="vio" onclick="generateTeacherMessage()">توليد المحتوى</button>
+        <button class="ghost" onclick="copyTeacherMessage()">نسخ المحتوى</button>
+      </div>
+      <textarea id="teacherEmail" placeholder="سيتولد هنا محتوى الرسالة تلقائيًا"></textarea>
+      <div class="small" id="emailHint">هذا الحقل اسمه بريد المعلمة، لكن محتواه رسالة جاهزة.</div>
 
       <div class="hr"></div>
 
@@ -373,8 +382,7 @@ th{background:#0b1430}
 </div>
 
 <script>
-/* ===================== التخزين ===================== */
-const STORE = "smart_class_all_classes_v4";
+const STORE = "smart_class_all_classes_v6";
 let data = JSON.parse(localStorage.getItem(STORE) || "null");
 
 function defaultData(){
@@ -407,7 +415,6 @@ function save(){
 }
 saveSilent();
 
-/* ===================== أدوات ===================== */
 const el=(id)=>document.getElementById(id);
 const esc=(s)=>String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 const today=()=>new Date().toISOString().slice(0,10);
@@ -432,7 +439,6 @@ function getClass(name){ return data.classes[name]; }
 
 const groupNames = {1:"المبدعات",2:"الطموحات",3:"الموهوبات",4:"المتميزات"};
 
-/* ===================== الجلسة اليومية ===================== */
 function makeSession(){
   return {
     date: today(),
@@ -465,7 +471,6 @@ function logAct(className,msg){
   s.log = `${nowTime()} — ${msg}\n` + (s.log||"");
 }
 
-/* ===================== تنقل/غلاف ===================== */
 function enterApp(){
   el("cover").classList.add("hidden");
   el("app").classList.remove("hidden");
@@ -517,44 +522,98 @@ function renderMeta(){
   el("appSchool").textContent = m.school;
   el("appPrincipal").textContent = m.principal;
   el("appTeacher").textContent = m.teacher;
-  el("appEmail").textContent = "بريد المعلمة: " + (m.email || "—");
+  el("appEmail").textContent = "بريد المعلمة: " + ((m.email && m.email.slice(0,40)) ? m.email.slice(0,40) + "..." : "—");
 }
 
-/* ===================== بريد المعلمة ===================== */
-function slugifyEmailBase(name){
-  const cleaned = String(name||"").trim();
-  const latin = cleaned
-    .replace(/[\u064B-\u065F]/g,"")
-    .replace(/\s+/g,".")
-    .replace(/[^\w.\-]/g,"")
-    .toLowerCase();
-  return latin || "teacher";
-}
-function topicSlug(topic){
-  const map = {
-    praise:"praise",
-    warn:"warning",
-    absence:"absence",
-    general:"general"
-  };
-  return map[topic] || "general";
-}
-function autoGenerateTeacherEmail(topic="general"){
-  const base = slugifyEmailBase(data.meta.teacher || "teacher");
-  const email = `${base}.${topicSlug(topic)}@school.edu`;
-  data.meta.email = email;
-  el("teacherEmail").value = email;
-  logAct(currentClass(), `تم توليد بريد المعلمة تلقائيًا حسب الموضوع: ${email}`);
-  save();
-  return email;
-}
-function saveTeacherEmail(){
-  data.meta.email = (el("teacherEmail").value||"").trim();
-  save();
-  alert("تم حفظ البريد.");
+function currentClass(){ return el("classSelect").value; }
+
+function buildTeacherMessage(topic, studentName, teacherName, statusText){
+  const t = String(topic || "").trim();
+
+  if(!t){
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نود إفادتكم بخصوص ابنتكم، ونأمل منكم المتابعة معنا.
+مع الشكر والتقدير.
+${teacherName}`;
+  }
+
+  if (t.includes("مشاركة") || t.includes("مميزة") || t.includes("إبداع") || t.includes("تفاعل") || t.includes("ممتاز")) {
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نحيطكم علمًا بأن ابنتكم أظهرت مشاركة مميزة وتفاعلًا رائعًا داخل الحصة، وهذا يعكس جهودكم ومتابعتكم المباركة.
+مع خالص الشكر والتقدير.
+${teacherName}`;
+  }
+
+  if (t.includes("واجب") || t.includes("ناقص") || t.includes("لم تحل") || t.includes("حل")) {
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نفيدكم بأن ابنتكم لديها ملاحظة تتعلق بالواجب الدراسي، ونأمل منكم المتابعة معها وتعزيز التزامها بإكمال الواجبات.
+شاكرين لكم تعاونكم.
+${teacherName}`;
+  }
+
+  if (t.includes("تأخر")) {
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نفيدكم بأن ابنتكم سجلت حالة تأخر اليوم، ونأمل منكم المتابعة لضمان الانتظام في الحضور.
+مع خالص الشكر.
+${teacherName}`;
+  }
+
+  if (t.includes("غياب")) {
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نفيدكم بأن حالة ابنتكم اليوم هي: ${statusText}، ونأمل منكم المتابعة معنا ومعرفة سبب الغياب.
+مع خالص الشكر.
+${teacherName}`;
+  }
+
+  if (t.includes("سلوك") || t.includes("تصرف") || t.includes("انضباط")) {
+    return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نود إشعاركم بوجود ملاحظة تتعلق بسلوك ابنتكم داخل الحصة، ونأمل منكم التعاون معنا لتعزيز الانضباط والسلوك الإيجابي.
+شاكرين حسن تعاونكم.
+${teacherName}`;
+  }
+
+  return `ولي أمر الطالبة/ ${studentName} حفظه الله،
+نود إشعاركم بخصوص: ${t}.
+نأمل منكم المتابعة مع ابنتكم، مع خالص الشكر والتقدير.
+${teacherName}`;
 }
 
-/* ===================== اختيار الفصل ===================== */
+function setTopicAndGenerate(topic){
+  el("messageTopic").value = topic;
+  generateTeacherMessage();
+}
+
+function generateTeacherMessage(){
+  const cname = currentClass();
+  const cls = getClass(cname);
+  const idx = el("msgStudent").value;
+  const topic = (el("messageTopic").value || "").trim();
+  const teacherName = data.meta.teacher || "المعلمة";
+
+  let studentName = "الطالبة";
+  let statusText = "حضور";
+
+  if(idx !== "" && cls.students[+idx]){
+    const st = cls.students[+idx];
+    const s = ensureSession(cname);
+    studentName = st.name;
+    const status = s.attendance[st.id] ?? 0;
+    statusText = status===0 ? "حضور" : status===1 ? "غياب" : "تأخر";
+  }
+
+  const msg = buildTeacherMessage(topic, studentName, teacherName, statusText);
+  data.meta.email = msg;
+  el("teacherEmail").value = msg;
+  logAct(cname, `تم توليد محتوى بريد المعلمة حسب الموضوع: ${topic || "عام"}`);
+  save();
+}
+
+function copyTeacherMessage(){
+  const text = (el("teacherEmail").value || "").trim();
+  if(!text) return alert("ولّدي المحتوى أولًا.");
+  copyToClipboard(text);
+}
+
 function renderClassSelector(){
   const sel=el("classSelect");
   sel.innerHTML="";
@@ -563,9 +622,7 @@ function renderClassSelector(){
   });
   if(!sel.value) sel.value = classNames()[0] || "";
 }
-function currentClass(){ return el("classSelect").value; }
 
-/* ===================== أرقام الطالبات ===================== */
 function nextId(cls){
   let max=0;
   cls.students.forEach(s=>{
@@ -575,7 +632,6 @@ function nextId(cls){
   return String(max+1).padStart(3,"0");
 }
 
-/* ===================== الطالبات ===================== */
 function addStudent(){
   const cname=currentClass();
   const cls=getClass(cname);
@@ -629,7 +685,6 @@ function deleteStudent(id){
   save();
 }
 
-/* ===================== سحب وإفلات ===================== */
 function allowDrop(ev){ ev.preventDefault(); }
 function dragStudent(ev, id){ ev.dataTransfer.setData("studentId", id); }
 function dropToGroup(ev, group){
@@ -644,7 +699,6 @@ function dropToGroup(ev, group){
   save();
 }
 
-/* ===================== حضور/غياب/تأخر ===================== */
 function cycleStatus(v){ return (v===0)?1:(v===1)?2:0; }
 function statusTag(v){
   if(v===0) return `<span class="tag t-ok">حاضرة ✅</span>`;
@@ -660,7 +714,6 @@ function toggleAttendance(id){
   save();
 }
 
-/* ===================== نقاط/تنبيه ===================== */
 function addPoints(id,delta){
   const cname=currentClass();
   const s=ensureSession(cname);
@@ -680,7 +733,6 @@ function addGroupPoints(group,delta){
   logAct(cname, `نقاط للمجموعة (${groupNames[group]}) ${delta>0?`+${delta}`:delta}`);
 }
 
-/* ===================== إنذار/تعزيز الصف ===================== */
 function classNoise(){
   const cname=currentClass();
   const s=ensureSession(cname);
@@ -715,7 +767,6 @@ function calmDown(){
   save();
 }
 
-/* ===================== العجلة ===================== */
 let wheelRot=0;
 function spinAnim(){
   wheelRot += 720 + Math.floor(Math.random()*720);
@@ -814,7 +865,6 @@ function awardGroupPointsPicked(){
   save();
 }
 
-/* ===================== الطالبة السرّية ===================== */
 function pickRandomStudent(cls){
   return cls.students[Math.floor(Math.random()*cls.students.length)];
 }
@@ -861,7 +911,6 @@ function newSecret(){
   save();
 }
 
-/* ===================== أولياء الأمور ===================== */
 function renderMsgStudents(cname){
   const sel=el("msgStudent");
   sel.innerHTML="";
@@ -884,8 +933,6 @@ function copyParentMsg(type){
   const st=cls.students[+idx];
   const status = s.attendance[st.id] ?? 0;
   const statusText = status===0 ? "حضور" : status===1 ? "غياب" : "تأخر";
-
-  const teacherEmail = autoGenerateTeacherEmail(type);
   const teacherName = (data.meta.teacher || "المعلمة");
 
   let msg="";
@@ -893,29 +940,24 @@ function copyParentMsg(type){
     msg =
 `ولي أمر الطالبة/ ${st.name} حفظه الله،
 نحيطكم علمًا بأن ابنتكم أظهرت انضباطًا وتفاعلًا مميزًا خلال الحصة، ونشكر دعمكم المتواصل.
-${teacherName}
-البريد: ${teacherEmail}`;
+${teacherName}`;
   }else if(type==="warn"){
     msg =
 `ولي أمر الطالبة/ ${st.name} حفظه الله،
 لوحظ على ابنتكم ملاحظات سلوكية أو تشتت أثناء الحصة، ونأمل منكم المتابعة والتوجيه لتحقيق الانضباط.
-${teacherName}
-البريد: ${teacherEmail}`;
+${teacherName}`;
   }else{
     msg =
 `ولي أمر الطالبة/ ${st.name} حفظه الله،
 نفيدكم بأن حالة ابنتكم اليوم: ${statusText}.
 نأمل تزويدنا بسبب ذلك، شاكرين تعاونكم.
-${teacherName}
-البريد: ${teacherEmail}`;
+${teacherName}`;
   }
 
   el("parentMsgBox").textContent = msg;
-  el("teacherEmail").value = teacherEmail;
   copyToClipboard(msg);
 }
 
-/* ===================== العرض ===================== */
 function renderRoster(cname){
   const cls=getClass(cname);
   const s=ensureSession(cname);
@@ -1065,7 +1107,6 @@ function renderSecretBox(cname){
   }
 }
 
-/* ===================== طباعة كشف ===================== */
 function printKashf(){
   const cname=currentClass();
   const cls=getClass(cname);
@@ -1112,7 +1153,6 @@ ${rows}
   setTimeout(()=>w.print(), 300);
 }
 
-/* ===================== تصدير/استيراد/حذف ===================== */
 function exportJSON(){
   const txt=JSON.stringify(data,null,2);
   copyToClipboard(txt);
@@ -1146,7 +1186,6 @@ function wipeAll(){
   }
 }
 
-/* ===================== مزامنة كاملة ===================== */
 function syncAll(){
   renderMeta();
   renderClassSelector();
@@ -1155,8 +1194,8 @@ function syncAll(){
   const s=ensureSession(cname);
 
   el("teacherEmail").value = data.meta.email || "";
-  el("emailHint").textContent = "المحفوظ: " + (data.meta.email || "—");
-  el("appEmail").textContent = "بريد المعلمة: " + (data.meta.email || "—");
+  el("emailHint").textContent = "هذا الحقل اسمه بريد المعلمة، لكن محتواه رسالة جاهزة.";
+  el("appEmail").textContent = "بريد المعلمة: " + ((data.meta.email && data.meta.email.slice(0,40)) ? data.meta.email.slice(0,40) + "..." : "—");
 
   if(s.noisy){
     el("classStatusBox").innerHTML = `⚠️ <b>إنذار:</b> الفصل مزعج — إجمالي الإنذارات: <b>${s.warnings}</b>`;
@@ -1183,7 +1222,6 @@ function syncAll(){
   el("pickResult").innerHTML = result;
 }
 
-/* تشغيل */
 renderMeta();
 syncAll();
 </script>
