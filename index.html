@@ -27,7 +27,7 @@ input,select,textarea{
   width:100%;padding:10px 11px;border-radius:12px;border:1px solid var(--line);
   background:#0b1430;color:var(--txt);outline:none
 }
-textarea{min-height:90px;resize:vertical}
+textarea{min-height:100px;resize:vertical}
 .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 button{
   border:none;padding:10px 12px;border-radius:999px;cursor:pointer;
@@ -49,7 +49,6 @@ button.vio{background:var(--vio);color:#fff}
 .t-vio{background:rgba(76,47,140,.18);color:#d7c7ff;border:1px solid rgba(76,47,140,.35)}
 .hidden{display:none}
 
-/* ===== الغلاف ===== */
 .cover{
   border-radius:18px;border:1px solid var(--line);overflow:hidden;
   background:
@@ -59,9 +58,7 @@ button.vio{background:var(--vio);color:#fff}
     linear-gradient(135deg,#0b1430,#0b1020);
 }
 .coverInner{padding:18px}
-.coverHeader{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap
-}
+.coverHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .badge{
   padding:6px 10px;border-radius:999px;border:1px solid rgba(212,175,55,.35);
   background:rgba(212,175,55,.12);color:#ffe8a6;font-weight:1000;font-size:12px
@@ -96,7 +93,6 @@ button.vio{background:var(--vio);color:#fff}
 .brandSmall{font-weight:1000;color:#e8ecff;opacity:.95}
 .rights{margin-top:14px;text-align:center;color:rgba(255,255,255,.55);font-size:12px}
 
-/* ===== عجلة ===== */
 .wheelWrap{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .wheel{
   width:170px;height:170px;border-radius:50%;
@@ -117,7 +113,6 @@ button.vio{background:var(--vio);color:#fff}
   display:flex;align-items:center;justify-content:center;font-weight:1000;color:var(--gold)
 }
 
-/* ===== المجموعات ===== */
 .groupBox{
   border:1px solid var(--line); border-radius:14px; padding:10px;
   background:#0b1430; min-height:170px;
@@ -140,7 +135,6 @@ button.vio{background:var(--vio);color:#fff}
 .miniBtns{display:flex;gap:6px;flex-wrap:wrap}
 .miniBtns button{padding:7px 9px;font-weight:1000}
 
-/* ===== قائمة الصف ===== */
 .roster{
   border:1px solid var(--line);border-radius:14px;padding:10px;background:#0b1430;max-height:340px;overflow:auto;
 }
@@ -151,7 +145,6 @@ button.vio{background:var(--vio);color:#fff}
 .rosterItem input{width:260px;max-width:70vw}
 .drag{cursor:grab;user-select:none}
 
-/* جدول */
 table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{border:1px solid var(--line);padding:8px;text-align:center;white-space:nowrap}
 th{background:#0b1430}
@@ -163,54 +156,52 @@ th{background:#0b1430}
   <div class="coverInner">
     <div class="coverHeader">
       <div class="brandSmall" id="metaPlatformNameTop">منصّة إدارة الصف الذكية</div>
-      <div class="badge">تعمل بدون إنترنت • تحفظ تلقائيًا</div>
+      <div class="badge">حفظ دائم على نفس الجهاز • لا يُحذف إلا بأمرك</div>
     </div>
 
     <div class="coverHero">
       <h1 class="coverCalligraphy">الإدارة الصفية الذكية</h1>
       <div class="coverLine"></div>
-      <div class="small" id="metaTag" style="margin-top:6px">
-        عجلة • مجموعات • حضور وغياب • تحفيز • رسائل أولياء الأمور
+      <div class="small" style="margin-top:6px">
+        عجلة مجموعات • عجلة طالبات • مجموعات • حضور وغياب • تحفيز • رسائل أولياء الأمور
       </div>
       <div class="coverIcons">
-        <div class="pill">🎡 اختيار عشوائي</div>
+        <div class="pill">🎡 عجلة المجموعات</div>
+        <div class="pill">🎯 عجلة الطالبات</div>
         <div class="pill">👥 مجموعات</div>
         <div class="pill">✅ حضور</div>
-        <div class="pill">🏅 تحفيز</div>
-        <div class="pill">✉️ أولياء الأمور</div>
+        <div class="pill">✉️ بريد المعلمة</div>
       </div>
     </div>
 
     <div class="grid" style="margin-top:12px">
       <div class="card2 span-6">
         <div class="small">بيانات المدرسة</div>
-        <div style="margin-top:6px;font-weight:1000" id="metaSchoolName">المتوسطة الثانية والأربعون – الثانوية السادسة والثلاثون</div>
-        <div class="small" style="margin-top:8px" id="metaPrincipalName">مديرة المدرسة: أ/ آمال باربود</div>
-        <div class="small" style="margin-top:4px" id="metaTeacherName">المعلمة: سعاد الغامدي</div>
+        <div style="margin-top:6px;font-weight:1000" id="metaSchoolName">المدرسة</div>
+        <div class="small" style="margin-top:8px" id="metaPrincipalName">المديرة</div>
+        <div class="small" style="margin-top:4px" id="metaTeacherName">المعلمة</div>
         <div class="small" style="margin-top:4px" id="metaTeacherEmailShow">بريد المعلمة: —</div>
       </div>
 
       <div class="card2 span-6">
         <div class="small">مزايا المنصّة</div>
         <div class="note" style="margin-top:10px">
-          ✅ فصول متعددة + حفظ منفصل لكل فصل<br>
-          ✅ سحب وإفلات للمجموعات (ويبقى الاسم في قائمة الصف)<br>
-          ✅ الطالبة السرّية (تعيين/إخفاء/إظهار)<br>
-          ✅ إنذار/تعزيز للصف + نقاط للمجموعة المتعاونة<br>
-          ✅ رسائل أولياء الأمور (نسخ فقط)
+          ✅ حفظ محلي دائم على نفس الجهاز والمتصفح<br>
+          ✅ إضافة جماعية صحيحة: كل اسم وحده<br>
+          ✅ عجلة للمجموعات + عجلة مستقلة للطالبات<br>
+          ✅ بريد المعلمة: تكتبين العنوان ويتولد المحتوى تلقائيًا
         </div>
       </div>
     </div>
 
     <div class="btns" style="margin-top:12px;justify-content:center">
       <button class="ok" onclick="enterApp()">الدخول للمنصّة</button>
-      <button class="ghost" onclick="toggleMetaEdit()">تعديل بيانات الغلاف</button>
+      <button class="ghost" onclick="toggleMetaEdit()">تعديل البيانات</button>
       <button class="bad" onclick="wipeAll()">حذف البيانات (بأمرك)</button>
     </div>
 
     <div id="metaEdit" class="card2 hidden" style="margin-top:12px">
       <h3 style="margin:0 0 8px;color:var(--gold)">تعديل بيانات الغلاف</h3>
-      <div class="small">تُحفظ داخل نفس الجهاز والمتصفح.</div>
       <div class="grid" style="margin-top:8px">
         <div class="span-6">
           <label>اسم المنصّة</label><input id="inPlatform" />
@@ -219,7 +210,7 @@ th{background:#0b1430}
         </div>
         <div class="span-6">
           <label>اسم المعلمة</label><input id="inTeacher" />
-          <label>بريد المعلمة (هذا الحقل للرسالة الجاهزة)</label><input id="inEmail" />
+          <label>بريد المعلمة (يحفظ آخر محتوى رسالة)</label><input id="inEmail" />
           <label>أسماء الفصول (سطر لكل فصل)</label>
           <textarea id="inClasses" placeholder="ثانية أول&#10;ثانية ثاني&#10;ثانية ثالث&#10;ثانية رابع"></textarea>
         </div>
@@ -236,9 +227,9 @@ th{background:#0b1430}
 
 <div id="app" class="hidden">
   <h1 id="appH1">منصّة إدارة الصف الذكية</h1>
-  <p id="appSchool">المتوسطة الثانية والأربعون – الثانوية السادسة والثلاثون</p>
-  <p id="appPrincipal">مديرة المدرسة: أ/ آمال باربود</p>
-  <p id="appTeacher">المعلمة: سعاد الغامدي</p>
+  <p id="appSchool"></p>
+  <p id="appPrincipal"></p>
+  <p id="appTeacher"></p>
   <p class="small" id="appEmail">بريد المعلمة: —</p>
 
   <div class="grid">
@@ -250,7 +241,7 @@ th{background:#0b1430}
         <button class="ghost" onclick="printKashf()">طباعة كشف</button>
         <button class="bad" onclick="wipeAll()">حذف البيانات (بأمرك)</button>
       </div>
-      <div class="small">ملاحظة: البيانات محفوظة داخل نفس الجهاز والمتصفح.</div>
+      <div class="small">الحفظ يبقى على هذا الجهاز والمتصفح. لا يوجد حذف تلقائي.</div>
     </div>
 
     <div class="card span-4">
@@ -266,7 +257,7 @@ th{background:#0b1430}
       <input id="studentName" placeholder="اكتبي اسم الطالبة">
 
       <label>إضافة جماعية للطالبات</label>
-      <textarea id="bulkNames" placeholder="كل اسم في سطر أو افصلي بينها بفواصل"></textarea>
+      <textarea id="bulkNames" placeholder="كل اسم في سطر، أو افصلي الأسماء بفواصل"></textarea>
 
       <div class="btns">
         <button onclick="addStudent()">إضافة وحفظ</button>
@@ -276,21 +267,16 @@ th{background:#0b1430}
       <div class="hr"></div>
 
       <h3 style="margin:0 0 8px">بريد المعلمة</h3>
-      <label>اختاري موضوع الرسالة الجاهز</label>
-      <div class="btns">
-        <button class="vio" onclick="setTopicAndGenerate('مشاركة مميزة')">مشاركة</button>
-        <button class="vio" onclick="setTopicAndGenerate('واجب ناقص')">واجب</button>
-        <button class="vio" onclick="setTopicAndGenerate('تأخر')">تأخر</button>
-        <button class="vio" onclick="setTopicAndGenerate('غياب')">غياب</button>
-        <button class="vio" onclick="setTopicAndGenerate('سلوك رائع')">سلوك رائع</button>
-      </div>
-      <input id="messageTopic" placeholder="أو اكتبي موضوعًا بنفسك">
+      <label>عنوان الرسالة</label>
+      <input id="messageTopic" placeholder="مثال: مشاركة مميزة / واجب ناقص / غياب / تأخر / سلوك">
+
       <div class="btns">
         <button class="vio" onclick="generateTeacherMessage()">توليد المحتوى</button>
         <button class="ghost" onclick="copyTeacherMessage()">نسخ المحتوى</button>
       </div>
-      <textarea id="teacherEmail" placeholder="سيتولد هنا محتوى الرسالة تلقائيًا"></textarea>
-      <div class="small" id="emailHint">هذا الحقل اسمه بريد المعلمة، لكن محتواه رسالة جاهزة.</div>
+
+      <textarea id="teacherEmail" placeholder="سيتولد هنا محتوى الرسالة حسب العنوان"></textarea>
+      <div class="small" id="emailHint">تكتبين العنوان فقط، والمحتوى يتولد تلقائيًا.</div>
 
       <div class="hr"></div>
 
@@ -318,7 +304,7 @@ th{background:#0b1430}
 
     <div class="card span-8">
       <h2 style="margin:0;color:var(--gold)">الإدارة الصفّية</h2>
-      <div class="small">سحب وإفلات للمجموعات + عجلة اختيار + حضور/غياب/تأخر + نقاط.</div>
+      <div class="small">سحب وإفلات للمجموعات + عجلة للمجموعات + عجلة للطالبات + حضور/غياب/تأخر + نقاط.</div>
 
       <div class="hr"></div>
 
@@ -336,21 +322,29 @@ th{background:#0b1430}
 
       <div class="hr"></div>
 
-      <h3 style="margin:0 0 8px">🎡 العجلة (اختيار مجموعة ثم طالبة)</h3>
+      <h3 style="margin:0 0 8px">🎡 عجلة المجموعات</h3>
       <div class="wheelWrap">
-        <div class="wheel" id="wheel"><div class="wheelCenter">🎡</div></div>
+        <div class="wheel" id="groupWheel"><div class="wheelCenter">👥</div></div>
         <div style="flex:1;min-width:240px">
           <div class="btns">
             <button class="vio" onclick="spinGroup()">اختيار مجموعة</button>
-            <button class="vio" onclick="spinStudentInChosenGroup()">اختيار طالبة من المجموعة</button>
-            <button class="ghost" onclick="toggleNoRepeatStudents()">منع تكرار الطالبات</button>
             <button class="ghost" onclick="toggleNoRepeatGroups()">منع تكرار المجموعات</button>
           </div>
+          <div class="note" id="groupPickResult" style="margin-top:10px">النتيجة: —</div>
+        </div>
+      </div>
 
-          <div class="note" id="pickResult" style="margin-top:10px">
-            <b>النتيجة:</b> —<br><span class="small">ابدئي باختيار مجموعة، ثم اختيار طالبة من المجموعة.</span>
+      <div class="hr"></div>
+
+      <h3 style="margin:0 0 8px">🎯 عجلة الطالبات</h3>
+      <div class="wheelWrap">
+        <div class="wheel" id="studentWheel"><div class="wheelCenter">🎯</div></div>
+        <div style="flex:1;min-width:240px">
+          <div class="btns">
+            <button class="vio" onclick="spinStudentAny()">اختيار طالبة</button>
+            <button class="ghost" onclick="toggleNoRepeatStudents()">منع تكرار الطالبات</button>
           </div>
-
+          <div class="note" id="studentPickResult" style="margin-top:10px">النتيجة: —</div>
           <div class="btns" style="margin-top:8px">
             <button class="ok" onclick="rewardPicked()">+10 للطالبة</button>
             <button class="warn" onclick="warnPicked()">تنبيه للطالبة</button>
@@ -385,7 +379,7 @@ th{background:#0b1430}
 </div>
 
 <script>
-const STORE = "smart_class_all_classes_v7";
+const STORE = "smart_class_all_classes_v8";
 let data = JSON.parse(localStorage.getItem(STORE) || "null");
 
 function defaultData(){
@@ -581,11 +575,6 @@ ${teacherName}`;
 ${teacherName}`;
 }
 
-function setTopicAndGenerate(topic){
-  el("messageTopic").value = topic;
-  generateTeacherMessage();
-}
-
 function generateTeacherMessage(){
   const cname = currentClass();
   const cls = getClass(cname);
@@ -607,7 +596,7 @@ function generateTeacherMessage(){
   const msg = buildTeacherMessage(topic, studentName, teacherName, statusText);
   data.meta.email = msg;
   el("teacherEmail").value = msg;
-  logAct(cname, `تم توليد محتوى بريد المعلمة حسب الموضوع: ${topic || "عام"}`);
+  logAct(cname, `تم توليد محتوى بريد المعلمة حسب العنوان: ${topic || "عام"}`);
   save();
 }
 
@@ -626,9 +615,9 @@ function renderClassSelector(){
     sel.innerHTML += `<option value="${esc(name)}">${esc(name)}</option>`;
   });
 
-  if (previousValue && classNames().includes(previousValue)) {
+  if(previousValue && classNames().includes(previousValue)){
     sel.value = previousValue;
-  } else if (classNames().length) {
+  }else if(classNames().length){
     sel.value = classNames()[0];
   }
 }
@@ -662,20 +651,20 @@ function bulkAddFromBox(){
 
   if(!text) return alert("اكتبي أسماء الطالبات أولًا.");
 
-  const lines = text
+  const names = text
     .split(/\n|,|،|;|\t/g)
     .map(x => x.trim())
     .filter(Boolean);
 
-  if(!lines.length) return alert("ما تم العثور على أسماء صالحة.");
+  if(!names.length) return alert("ما تم العثور على أسماء صالحة.");
 
   let added = 0;
 
-  lines.forEach(n => {
-    const alreadyExists = cls.students.some(st => st.name === n);
+  names.forEach(name => {
+    const alreadyExists = cls.students.some(st => st.name === name);
     if(!alreadyExists){
       const id = nextId(cls);
-      cls.students.push({ id, name:n, group:0 });
+      cls.students.push({ id, name, group:0 });
       added++;
     }
   });
@@ -792,11 +781,18 @@ function calmDown(){
   save();
 }
 
-let wheelRot=0;
-function spinAnim(){
-  wheelRot += 720 + Math.floor(Math.random()*720);
-  el("wheel").style.transform = `rotate(${wheelRot}deg)`;
+let groupWheelRot=0;
+let studentWheelRot=0;
+
+function spinGroupAnim(){
+  groupWheelRot += 720 + Math.floor(Math.random()*720);
+  el("groupWheel").style.transform = `rotate(${groupWheelRot}deg)`;
 }
+function spinStudentAnim(){
+  studentWheelRot += 720 + Math.floor(Math.random()*720);
+  el("studentWheel").style.transform = `rotate(${studentWheelRot}deg)`;
+}
+
 function toggleNoRepeatStudents(){
   const cname=currentClass();
   const s=ensureSession(cname);
@@ -813,6 +809,7 @@ function toggleNoRepeatGroups(){
   save();
   alert(s.noRepeatGroups ? "منع تكرار المجموعات: مفعل" : "منع تكرار المجموعات: ملغي");
 }
+
 function spinGroup(){
   const cname=currentClass();
   const cls=getClass(cname);
@@ -831,21 +828,21 @@ function spinGroup(){
   s.chosenGroup = g;
   if(s.noRepeatGroups) s.usedGroups.push(g);
 
-  spinAnim();
+  spinGroupAnim();
   setTimeout(()=>{
-    el("pickResult").innerHTML = `<b>النتيجة:</b> تم اختيار <span class="tag t-vio">${groupNames[g]}</span><br><span class="small">الآن اضغطي: اختيار طالبة من المجموعة.</span>`;
-    logAct(cname, `🎯 اختيار مجموعة: ${groupNames[g]}`);
+    el("groupPickResult").innerHTML = `النتيجة: <span class="tag t-vio">${groupNames[g]}</span>`;
+    logAct(cname, `🎡 اختيار مجموعة: ${groupNames[g]}`);
     save();
   }, 900);
 }
-function spinStudentInChosenGroup(){
+
+function spinStudentAny(){
   const cname=currentClass();
   const cls=getClass(cname);
   const s=ensureSession(cname);
-  if(!s.chosenGroup) return alert("اختاري مجموعة أولاً.");
 
-  let pool = cls.students.filter(st=>st.group===s.chosenGroup);
-  if(!pool.length) return alert("هذه المجموعة فارغة.");
+  let pool = cls.students.slice();
+  if(!pool.length) return alert("أضيفي طالبات أولاً.");
 
   if(s.noRepeatStudents){
     const left = pool.filter(st => !s.usedStudentIds.includes(st.id));
@@ -857,32 +854,32 @@ function spinStudentInChosenGroup(){
   s.pickedId = pick.id;
   if(s.noRepeatStudents) s.usedStudentIds.push(pick.id);
 
-  spinAnim();
+  spinStudentAnim();
   setTimeout(()=>{
-    el("pickResult").innerHTML =
-      `<b>النتيجة:</b> <span class="tag t-vio">${groupNames[pick.group]}</span> → <span class="tag t-gold">${esc(pick.name)}</span> (${pick.id})`;
-    logAct(cname, `🎲 اختيار طالبة: ${pick.name} (${pick.id})`);
+    el("studentPickResult").innerHTML = `النتيجة: <span class="tag t-gold">${esc(pick.name)}</span> (${pick.id})`;
+    logAct(cname, `🎯 اختيار طالبة: ${pick.name} (${pick.id})`);
     save();
   }, 900);
 }
+
 function rewardPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة أولاً.");
   addPoints(s.pickedId, +10);
   save();
 }
 function warnPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة أولاً.");
   addWarn(s.pickedId);
   save();
 }
 function awardGroupPointsPicked(){
   const cname=currentClass();
   const s=ensureSession(cname);
-  if(!s.pickedId) return alert("اختاري طالبة من العجلة أولاً.");
+  if(!s.pickedId) return alert("اختاري طالبة أولاً.");
   const cls=getClass(cname);
   const st=cls.students.find(x=>x.id===s.pickedId);
   if(!st || !st.group) return alert("الطالبة غير مسندة لمجموعة.");
@@ -1219,7 +1216,7 @@ function syncAll(){
   const s=ensureSession(cname);
 
   el("teacherEmail").value = data.meta.email || "";
-  el("emailHint").textContent = "هذا الحقل اسمه بريد المعلمة، لكن محتواه رسالة جاهزة.";
+  el("emailHint").textContent = "تكتبين عنوان الرسالة فقط، والمحتوى يتولد تلقائيًا.";
   el("appEmail").textContent = "بريد المعلمة: " + ((data.meta.email && data.meta.email.slice(0,40)) ? data.meta.email.slice(0,40) + "..." : "—");
 
   if(s.noisy){
@@ -1237,14 +1234,16 @@ function syncAll(){
   renderKashfTable(cname);
   renderSessionLog(cname);
 
-  let result = `<b>النتيجة:</b> —<br><span class="small">ابدئي باختيار مجموعة، ثم اختيار طالبة من المجموعة.</span>`;
-  if(s.chosenGroup) result = `<b>النتيجة:</b> تم اختيار <span class="tag t-vio">${groupNames[s.chosenGroup]}</span> — الآن اختاري طالبة.`;
+  const groupText = s.chosenGroup ? `النتيجة: <span class="tag t-vio">${groupNames[s.chosenGroup]}</span>` : "النتيجة: —";
+  el("groupPickResult").innerHTML = groupText;
+
+  let studentText = "النتيجة: —";
   if(s.pickedId){
     const cls=getClass(cname);
     const st=cls.students.find(x=>x.id===s.pickedId);
-    if(st) result = `<b>النتيجة:</b> <span class="tag t-vio">${st.group?groupNames[st.group]:"—"}</span> → <span class="tag t-gold">${esc(st.name)}</span> (${st.id})`;
+    if(st) studentText = `النتيجة: <span class="tag t-gold">${esc(st.name)}</span> (${st.id})`;
   }
-  el("pickResult").innerHTML = result;
+  el("studentPickResult").innerHTML = studentText;
 }
 
 renderMeta();
