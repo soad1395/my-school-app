@@ -265,9 +265,12 @@ th{background:#0b1430}
       <label>اسم الطالبة</label>
       <input id="studentName" placeholder="اكتبي اسم الطالبة">
 
+      <label>إضافة جماعية للطالبات</label>
+      <textarea id="bulkNames" placeholder="كل اسم في سطر أو افصلي بينها بفواصل"></textarea>
+
       <div class="btns">
         <button onclick="addStudent()">إضافة وحفظ</button>
-        <button class="ghost" onclick="bulkAdd()">إضافة جماعية (سطر لكل اسم)</button>
+        <button class="ghost" onclick="bulkAddFromBox()">إضافة جماعية</button>
       </div>
 
       <div class="hr"></div>
@@ -382,7 +385,7 @@ th{background:#0b1430}
 </div>
 
 <script>
-const STORE = "smart_class_all_classes_v6";
+const STORE = "smart_class_all_classes_v7";
 let data = JSON.parse(localStorage.getItem(STORE) || "null");
 
 function defaultData(){
@@ -615,12 +618,19 @@ function copyTeacherMessage(){
 }
 
 function renderClassSelector(){
-  const sel=el("classSelect");
-  sel.innerHTML="";
+  const sel = el("classSelect");
+  const previousValue = sel.value;
+
+  sel.innerHTML = "";
   classNames().forEach(name=>{
     sel.innerHTML += `<option value="${esc(name)}">${esc(name)}</option>`;
   });
-  if(!sel.value) sel.value = classNames()[0] || "";
+
+  if (previousValue && classNames().includes(previousValue)) {
+    sel.value = previousValue;
+  } else if (classNames().length) {
+    sel.value = classNames()[0];
+  }
 }
 
 function nextId(cls){
@@ -644,22 +654,37 @@ function addStudent(){
   logAct(cname, `إضافة طالبة: ${name} (${id})`);
   save();
 }
-function bulkAdd(){
-  const cname=currentClass();
-  const cls=getClass(cname);
-  const text = prompt("الصقي أسماء الطالبات (كل اسم في سطر):");
-  if(!text) return;
-  const lines = text.split("\n").map(x=>x.trim()).filter(Boolean);
-  if(!lines.length) return;
 
-  lines.forEach(n=>{
-    const id = nextId(cls);
-    cls.students.push({ id, name:n, group:0 });
+function bulkAddFromBox(){
+  const cname = currentClass();
+  const cls = getClass(cname);
+  const text = (el("bulkNames").value || "").trim();
+
+  if(!text) return alert("اكتبي أسماء الطالبات أولًا.");
+
+  const lines = text
+    .split(/\n|,|،|;|\t/g)
+    .map(x => x.trim())
+    .filter(Boolean);
+
+  if(!lines.length) return alert("ما تم العثور على أسماء صالحة.");
+
+  let added = 0;
+
+  lines.forEach(n => {
+    const alreadyExists = cls.students.some(st => st.name === n);
+    if(!alreadyExists){
+      const id = nextId(cls);
+      cls.students.push({ id, name:n, group:0 });
+      added++;
+    }
   });
 
-  logAct(cname, `إضافة جماعية: ${lines.length} طالبة`);
+  el("bulkNames").value = "";
+  logAct(cname, `إضافة جماعية: ${added} طالبة`);
   save();
 }
+
 function editStudentName(id,value){
   const cname=currentClass();
   const cls=getClass(cname);
