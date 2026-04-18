@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
@@ -156,7 +156,7 @@ th{background:#0b1430}
   <div class="coverInner">
     <div class="coverHeader">
       <div class="brandSmall" id="metaPlatformNameTop">منصّة إدارة الصف الذكية</div>
-      <div class="badge">حفظ دائم على نفس الجهاز • لا يُحذف إلا بأمرك</div>
+      <div class="badge">الحفظ ثابت • لا يُحذف إلا إذا حذفتِه</div>
     </div>
 
     <div class="coverHero">
@@ -186,7 +186,7 @@ th{background:#0b1430}
       <div class="card2 span-6">
         <div class="small">مزايا المنصّة</div>
         <div class="note" style="margin-top:10px">
-          ✅ حفظ محلي دائم على نفس الجهاز والمتصفح<br>
+          ✅ استرجاع البيانات القديمة تلقائيًا إن وُجدت<br>
           ✅ إضافة جماعية صحيحة: كل اسم وحده<br>
           ✅ عجلة للمجموعات + عجلة مستقلة للطالبات<br>
           ✅ بريد المعلمة: تكتبين العنوان ويتولد المحتوى تلقائيًا
@@ -379,8 +379,15 @@ th{background:#0b1430}
 </div>
 
 <script>
-const STORE = "smart_class_all_classes_v8";
-let data = JSON.parse(localStorage.getItem(STORE) || "null");
+const STORE = "smart_class_all_classes_forever";
+const OLD_STORES = [
+  "smart_class_all_classes_v3",
+  "smart_class_all_classes_v4",
+  "smart_class_all_classes_v5",
+  "smart_class_all_classes_v6",
+  "smart_class_all_classes_v7",
+  "smart_class_all_classes_v8"
+];
 
 function defaultData(){
   return {
@@ -401,7 +408,30 @@ function defaultData(){
     sessions:{}
   };
 }
-if(!data) data = defaultData();
+
+function loadSavedData(){
+  const current = localStorage.getItem(STORE);
+  if(current){
+    try{
+      return JSON.parse(current);
+    }catch(e){}
+  }
+
+  for(const key of OLD_STORES){
+    const oldValue = localStorage.getItem(key);
+    if(oldValue){
+      try{
+        const parsed = JSON.parse(oldValue);
+        localStorage.setItem(STORE, JSON.stringify(parsed));
+        return parsed;
+      }catch(e){}
+    }
+  }
+
+  return defaultData();
+}
+
+let data = loadSavedData();
 
 function saveSilent(){
   localStorage.setItem(STORE, JSON.stringify(data));
@@ -1196,10 +1226,11 @@ function importJSON(){
     alert("JSON غير صالح.");
   }
 }
+
 function wipeAll(){
   if(confirm("هل تريدين حذف كل البيانات من هذا الجهاز؟")){
     localStorage.removeItem(STORE);
-    data=defaultData();
+    data = defaultData();
     save();
     alert("تم حذف البيانات.");
     el("app").classList.add("hidden");
